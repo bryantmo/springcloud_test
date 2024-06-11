@@ -1,0 +1,6 @@
+1、ConfigServer
+
+
+2、native模式
+curl http://localhost:8080/config/native
+
