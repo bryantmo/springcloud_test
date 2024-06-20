@@ -12,16 +12,16 @@ public class TestController {
     /**
      * 除了通过eValue注解绑定注入之外，也可以通过Environment 对象来获取配置 属性，比如:注入Environment
      */
-//    @Value("${from}")
-//    private String from;
+    @Value("${from}")
+    private String from;
 
     @Autowired
     private Environment environment;
 
-//    @GetMapping("/from_test")
-//    public String getFrom() {
-//        return "Hello from " + from;
-//    }
+    @GetMapping("/from_test")
+    public String getFrom() {
+        return "Hello from " + from;
+    }
 
     @GetMapping("/from_test2")
     public String getFrom2() {

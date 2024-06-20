@@ -7,9 +7,10 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @EnableEurekaClient
 @SpringBootApplication
-@EnableSpringStudy // 测试自定义启动类加载
+// 测试自定义启动类加载
+@EnableSpringStudy
 public class UserServer {
- 
+
 	public static void main(String[] args) {
 	    SpringApplication.run(UserServer.class, args);
 	}
