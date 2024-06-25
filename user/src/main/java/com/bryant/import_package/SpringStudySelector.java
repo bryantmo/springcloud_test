@@ -19,6 +19,22 @@ public class SpringStudySelector implements ImportSelector, BeanFactoryAware {
     private BeanFactory beanFactory;
 
     /**
+     * 导入资源，这里示例是 AppConfig 类
+     * @param importingClassMetadata
+     * @return
+     */
+    @Override
+    public String[] selectImports(AnnotationMetadata importingClassMetadata) {
+        importingClassMetadata.getAnnotationTypes().forEach(
+                type -> {
+                    System.out.println(String.format("select import: %s", type));
+                }
+        );
+        System.out.println(String.format("select import beanFactory : %s", beanFactory));
+        return new String[]{AppConfig.class.getName()};
+    }
+
+    /**
      * setBeanFactory方法，允许 SpringStudySelector 获取到其所在的 BeanFactory 的引用。
      *
      * 尽管BeanFactoryAware提供了灵活的操作手段，但是一般建议仅在必要的情况下使用它，因为它使得Bean与Spring容器耦合，降低了代码的清晰度和可测试性。
@@ -44,19 +60,4 @@ public class SpringStudySelector implements ImportSelector, BeanFactoryAware {
         }
     }
 
-    /**
-     * 导入资源，这里示例是 AppConfig 类
-     * @param importingClassMetadata
-     * @return
-     */
-    @Override
-    public String[] selectImports(AnnotationMetadata importingClassMetadata) {
-        importingClassMetadata.getAnnotationTypes().forEach(
-                type -> {
-                    System.out.println(String.format("select import: %s", type));
-                }
-        );
-        System.out.println(String.format("select import beanFactory : %s", beanFactory));
-        return new String[]{AppConfig.class.getName()};
-    }
 }
