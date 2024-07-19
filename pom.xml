@@ -16,6 +16,7 @@
         <module>webdoor</module>
         <module>core</module>
         <module>user</module>
+        <module>hystrix-dashboard</module>
     </modules>
 
 </project>
