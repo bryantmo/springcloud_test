@@ -3,6 +3,7 @@ package com.bryant.controller;
 import com.bryant.constants.Web;
 import com.bryant.model.User;
 import com.bryant.service.UserService;
+import com.bryant.service.feign.UserFeignService;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Random;
@@ -22,6 +23,33 @@ public class DoorController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserFeignService userFeignService;
+
+    @GetMapping("/testGetNameByFeign")
+    public String testGetNameByFeign() {
+        return userFeignService.getName();
+    }
+
+    @GetMapping("/feign/getUser")
+    public String getUser() {
+        return userFeignService.getUser("bryant11");
+    }
+
+    @GetMapping("/feign/getUser2")
+    public String getUser2() {
+        return userFeignService.getUser2(
+               "bryant", 111
+        );
+    }
+
+    @GetMapping("/feign/getUser3")
+    public String getUser3() {
+        return userFeignService.getUser3(
+                new User(222, "bryant")
+        );
+    }
 
     @GetMapping("/testHystrix")
     public String testHystrix() {
