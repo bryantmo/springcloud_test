@@ -1,6 +1,8 @@
 package com.bryant.controller;
 
 import com.bryant.model.User;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,4 +66,12 @@ public class UserController {
     ){
         System.out.println(String.format("delete user, userId: %s", userId));
     }
+
+    @GetMapping("/getUserByUserNames")
+    public List<User> getUserByUserNames(
+            @RequestParam List<String> usernames
+    ) {
+        return Arrays.asList(new User( "test", 1), new User("test2", 2));
+    }
+
 }

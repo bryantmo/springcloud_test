@@ -2,8 +2,10 @@ package com.bryant.controller;
 
 import com.bryant.constants.Web;
 import com.bryant.model.User;
+import com.bryant.service.UserService;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +19,34 @@ public class DoorController {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/testHystrix")
+    public String testHystrix() {
+        return userService.testHystrix("bryant");
+    }
+
+    @GetMapping("/testHystrixTimeOut")
+    public String testHystrixTimeOut() throws InterruptedException {
+        return userService.testHystrixTimeOut("bryant");
+    }
+
+    @GetMapping("/testHystrixException")
+    public String testHystrixException() throws Exception {
+        return userService.testHystrixException("bryant");
+    }
+
+    @GetMapping("/testHystrixWithGroup")
+    public String testHystrixWithGroup() throws Exception {
+        return userService.testHystrixWithGroup("bryant");
+    }
+
+    @GetMapping("/getUserByUserNameByCollapser")
+    public User getUserByUserNameByCollapser() {
+        return userService.getUserByUserNameByCollapser("bryant" + new Random().nextInt(100));
+    }
 
     /**
      * #restTemplate.getForObject,是对getForObject的进一步封装
