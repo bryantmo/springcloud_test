@@ -84,6 +84,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+
+        <!-- feign-service-api -->
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>user-feign-service-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

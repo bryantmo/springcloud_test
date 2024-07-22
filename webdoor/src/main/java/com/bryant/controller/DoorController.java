@@ -3,6 +3,7 @@ package com.bryant.controller;
 import com.bryant.constants.Web;
 import com.bryant.model.User;
 import com.bryant.service.UserService;
+import com.bryant.service.feign.RefactorUserFeignService;
 import com.bryant.service.feign.UserFeignService;
 import java.net.URI;
 import java.util.HashMap;
@@ -26,6 +27,29 @@ public class DoorController {
 
     @Autowired
     private UserFeignService userFeignService;
+
+    @Autowired
+    private RefactorUserFeignService refactorUserFeignService;
+
+    @GetMapping("/refactor/getName")
+    public String getNameRefactor() {
+        return refactorUserFeignService.getName();
+    }
+
+    @GetMapping("/refactor/feign/getUser")
+    public String getUserRefactor() {
+        return refactorUserFeignService.getUser("bryant000");
+    }
+
+    @GetMapping("/refactor/feign/getUser2")
+    public com.bryant.dto.User getUser2Refactor() {
+        return refactorUserFeignService.getUser2("bryant111", 11);
+    }
+
+    @GetMapping("/refactor/feign/getUser3")
+    public String getUser3Refactor() {
+        return refactorUserFeignService.getUser3(new com.bryant.dto.User(333, "bryant333"));
+    }
 
     @GetMapping("/testGetNameByFeign")
     public String testGetNameByFeign() {

@@ -56,5 +56,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- feign-service-api -->
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>user-feign-service-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 </project>

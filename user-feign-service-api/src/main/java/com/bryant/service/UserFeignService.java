@@ -1,32 +1,31 @@
-package com.bryant.service.feign;
+package com.bryant.service;
 
-import com.bryant.model.User;
-import org.springframework.cloud.openfeign.FeignClient;
+import com.bryant.dto.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 服务名不区分大小写
  */
-//@FeignClient(name = "users")
-@FeignClient(name = "users1") // 权宜之计，为了避免和RefactorUserFeignService冲突
+@RequestMapping("/refactor")
 public interface UserFeignService {
 
-    @GetMapping("/getName")
+    @GetMapping("/v2/getName")
     String getName();
 
-    @GetMapping("/feign/getUser")
+    @GetMapping("/v2/feign/getUser")
     String getUser(@RequestParam("name") String name);
 
-    @GetMapping("/feign/getUser2")
-    String getUser2(
+    @GetMapping("/v2/feign/getUser2")
+    User getUser2(
             @RequestHeader("name") String name,
             @RequestHeader("id") Integer id);
 
-    @PostMapping("/feign/getUser3")
+    @PostMapping("/v2/feign/getUser3")
     String getUser3(@RequestBody User user);
 
 }
