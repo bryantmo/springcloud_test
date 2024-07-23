@@ -18,7 +18,7 @@ public interface UserFeignService {
     String getName();
 
     @GetMapping("/v2/feign/getUser")
-    String getUser(@RequestParam("name") String name);
+    String getUser(@RequestParam("name") String name) throws Exception;
 
     @GetMapping("/v2/feign/getUser2")
     User getUser2(
@@ -27,5 +27,8 @@ public interface UserFeignService {
 
     @PostMapping("/v2/feign/getUser3")
     String getUser3(@RequestBody User user);
+
+    @GetMapping("/v2/feign/hystrix")
+    String testHystrixV2();
 
 }

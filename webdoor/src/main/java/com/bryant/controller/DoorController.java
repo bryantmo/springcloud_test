@@ -5,6 +5,7 @@ import com.bryant.model.User;
 import com.bryant.service.UserService;
 import com.bryant.service.feign.RefactorUserFeignService;
 import com.bryant.service.feign.UserFeignService;
+import com.bryant.service.feign.fallback.UserFeignHystrixService;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Random;
@@ -25,11 +26,33 @@ public class DoorController {
     @Autowired
     private UserService userService;
 
+    /**
+     * feign（Feign-RPC接口在微服务内部定义）
+     */
     @Autowired
     private UserFeignService userFeignService;
 
+    /**
+     * feign重构（RPC抽象到user-feign-service-api）
+     */
     @Autowired
     private RefactorUserFeignService refactorUserFeignService;
+
+    /**
+     * feign整合hystrix（通过RefactorUserFeignFallback）
+     */
+    @Autowired
+    private UserFeignHystrixService userFeignHystrixService;
+
+    @GetMapping("/test/refactor/v2/getName")
+    public String getNameFeignHystrix() {
+        return userFeignHystrixService.testHystrixV2();
+    }
+
+    @GetMapping("/refactor/testHystrixV2")
+    public String testHystrixv2() {
+        return refactorUserFeignService.testHystrixV2();
+    }
 
     @GetMapping("/refactor/getName")
     public String getNameRefactor() {
@@ -37,7 +60,7 @@ public class DoorController {
     }
 
     @GetMapping("/refactor/feign/getUser")
-    public String getUserRefactor() {
+    public String getUserRefactor() throws Exception {
         return refactorUserFeignService.getUser("bryant000");
     }
 
@@ -57,26 +80,26 @@ public class DoorController {
     }
 
     @GetMapping("/feign/getUser")
-    public String getUser() {
+    public String getUserV1() {
         return userFeignService.getUser("bryant11");
     }
 
     @GetMapping("/feign/getUser2")
-    public String getUser2() {
+    public String getUserV11() {
         return userFeignService.getUser2(
                "bryant", 111
         );
     }
 
     @GetMapping("/feign/getUser3")
-    public String getUser3() {
+    public String getUser3V1() {
         return userFeignService.getUser3(
                 new User(222, "bryant")
         );
     }
 
     @GetMapping("/testHystrix")
-    public String testHystrix() {
+    public String testHystrixV1() {
         return userService.testHystrix("bryant");
     }
 
