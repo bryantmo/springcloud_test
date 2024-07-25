@@ -1,0 +1,32 @@
+server:
+  port: 8700
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: api-gateway
+          uri: lb://api-gateway
+#          uri: http://localhost:8700
+          predicates:
+            - Path=/gateway/**
+          filters:
+            - StripPrefix=1
+        - id: users
+          uri: lb://users
+#          uri: http://localhost:8891
+          predicates:
+            - Path=/users/**
+          filters:
+            - StripPrefix=1
+        - id: web-door
+          uri: lb://web-door
+#          uri: http://localhost:8853
+          predicates:
+            - Path=/webdoor/**
+          filters:
+            - StripPrefix=1
+logging:
+  level:
+    org.springframework.cloud.gateway: TRACE

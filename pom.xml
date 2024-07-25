@@ -18,6 +18,7 @@
         <module>user</module>
         <module>hystrix-dashboard</module>
         <module>user-feign-service-api</module>
+        <module>api-gateway</module>
     </modules>
 
 </project>

@@ -1,0 +1,28 @@
+以下配置：
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: api-gateway
+          uri: lb://api-gateway
+#          uri: http://localhost:8700
+          predicates:
+            - Path=/gateway/**
+          filters:
+            - StripPrefix=1
+        - id: users
+          uri: lb://users
+#          uri: http://localhost:8891
+          predicates:
+            - Path=/users/**
+          filters:
+            - StripPrefix=1
+【说明】
+（1）uri: lb://api-gateway 和 uri: http://localhost:8700 实际是同一个效果。
+推荐使用第一个。
+（2）StripPrefix=1
+表示去掉请求路径中的第一个路径，
+如：http://localhost:8700/api-gateway/gateway/hello，会去掉 api-gateway，只保留后面的路径 gateway/hello，然后匹配到routes[0]，然后转发到负载均衡的api-gateway实例。
+
