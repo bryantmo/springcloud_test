@@ -1,18 +1,24 @@
 server:
   port: 8700
 spring:
+  redis:
+    port: 6379
+    host: localhost
   application:
     name: api-gateway
   cloud:
     gateway:
+      locator:
+        enabled: true
       routes:
-        - id: api-gateway
-          uri: lb://api-gateway
-#          uri: http://localhost:8700
-          predicates:
-            - Path=/gateway/**
-          filters:
-            - StripPrefix=1
+#          uri: http://localhost:8701
+#        - id: api-gateway
+#          uri: lb://api-gateway
+##          uri: http://localhost:8700
+#          predicates:
+#            - Path=/gateway/**
+#          filters:
+#            - StripPrefix=1
         - id: users
           uri: lb://users
 #          uri: http://localhost:8891
@@ -20,6 +26,10 @@ spring:
             - Path=/users/**
           filters:
             - StripPrefix=1
+            - name: Hystrix
+              args:
+                name: HystrixCommand
+                fallbackUri: forward:/fallbackcontroller
         - id: web-door
           uri: lb://web-door
 #          uri: http://localhost:8853
@@ -27,6 +37,19 @@ spring:
             - Path=/webdoor/**
           filters:
             - StripPrefix=1
+            - name: Hystrix
+              args:
+                name: HystrixCommand
+                fallbackUri: forward:/fallback
+            - name: RequestRateLimiter
+              args:
+                # 使用SpEL从容器中获取对象
+                #当需要用到这里的对象时需要去filter包下的KeyResolverConfiguration类中开启对应的限流bean
+                key-resolver: '#{@pathKeyResolver}'
+                # 令牌桶每秒填充平均速率
+                redis-rate-limiter.replenishRate: 1
+                # 令牌桶的总容量
+                redis-rate-limiter.burstCapacity: 3
 logging:
   level:
     org.springframework.cloud.gateway: TRACE
