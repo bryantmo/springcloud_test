@@ -48,9 +48,9 @@ spring:
                 #当需要用到这里的对象时需要去filter包下的KeyResolverConfiguration类中开启对应的限流bean
                 key-resolver: '#{@pathKeyResolver}'
                 # 令牌桶每秒填充平均速率
-                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.replenishRate: 10
                 # 令牌桶的总容量
-                redis-rate-limiter.burstCapacity: 3
+                redis-rate-limiter.burstCapacity: 10
 logging:
   level:
     org.springframework.cloud.gateway: TRACE

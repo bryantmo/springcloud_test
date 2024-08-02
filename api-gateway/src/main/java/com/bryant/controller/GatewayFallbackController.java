@@ -14,7 +14,8 @@ import reactor.core.publisher.Mono;
 public class GatewayFallbackController {
 
     /**
-     * todo 这个降级方法没有验证成功，要检查一下 application.yml 的users模块，是否配置有问题?
+     * 这个降级方法没有验证成功，要检查一下 application.yml 的users模块，是否配置有问题?
+     * 2024年08月02日10:32:26：验证成功，发现是配置问题，users模块的filter.hystrix.name配置非全局唯一，导致问题
      * @return
      */
     @RequestMapping("/fallbackcontroller")
