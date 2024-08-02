@@ -19,6 +19,13 @@ spring:
 #            - Path=/gateway/**
 #          filters:
 #            - StripPrefix=1
+        - id: cloud-stream-service
+          uri: lb://cloud-stream-service
+#          uri: http://localhost:8823
+          predicates:
+            - Path=/stream/**
+          filters:
+            - StripPrefix=1
         - id: users
           uri: lb://users
 #          uri: http://localhost:8891

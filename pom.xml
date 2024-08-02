@@ -19,6 +19,7 @@
         <module>hystrix-dashboard</module>
         <module>user-feign-service-api</module>
         <module>api-gateway</module>
+        <module>spring-cloud-stream-service</module>
     </modules>
 
 </project>
