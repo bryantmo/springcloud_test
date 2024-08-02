@@ -28,7 +28,8 @@ spring:
             - StripPrefix=1
             - name: Hystrix
               args:
-                name: HystrixCommand
+                # 此处的熔断过滤器name，一定要全局唯一
+                name: HystrixCommand1
                 fallbackUri: forward:/fallbackcontroller
         - id: web-door
           uri: lb://web-door
