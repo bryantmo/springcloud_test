@@ -19,6 +19,7 @@ public class RefactorUserFeignController implements UserFeignService {
 
     @Override
     public String getName() {
+//        throw new RuntimeException("error");
         return "refactor response: " + "bryant";
     }
 

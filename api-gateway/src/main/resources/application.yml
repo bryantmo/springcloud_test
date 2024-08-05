@@ -1,6 +1,16 @@
 server:
   port: 8700
 spring:
+  sleuth:
+    sampler:
+      # 请求采样率,配置0.1，即10%
+      probability: 1.0
+  zipkin:
+    # 配置通过HTTP方式发送到Zipkin的地址
+    base-url: http://localhost:9411
+    sender:
+      type: web
+    discovery-client-enabled: false
   redis:
     port: 6379
     host: localhost
@@ -61,3 +71,4 @@ spring:
 logging:
   level:
     org.springframework.cloud.gateway: TRACE
+  path: /data/logs/{spring.application.name}

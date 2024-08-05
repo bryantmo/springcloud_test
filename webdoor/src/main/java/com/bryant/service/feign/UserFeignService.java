@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * 服务名不区分大小写
  */
-//@FeignClient(name = "users")
-@FeignClient(name = "users1") // 权宜之计，为了避免和RefactorUserFeignService冲突
+@FeignClient(name = "users1")
+// 权宜之计，为了避免和RefactorUserFeignService冲突
 public interface UserFeignService {
 
     @GetMapping("/getName")

@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @FeignClient绑定服务
  * 继承UserFeignService接口
  */
-//@FeignClient(value = "users", fallback = RefactorUserFeignFallback.class)
-@FeignClient(value = "users")
+@FeignClient(name = "users3", fallback = RefactorUserFeignFallback.class)
 public interface UserFeignHystrixService {
 
     @GetMapping("/refactor/v2/getName")
