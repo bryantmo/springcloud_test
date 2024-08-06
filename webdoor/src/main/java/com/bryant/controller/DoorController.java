@@ -44,6 +44,11 @@ public class DoorController {
     @Autowired
     private UserFeignHystrixService userFeignHystrixService;
 
+    @GetMapping("/test/user/sleuth2")
+    public String getNameFeign2() {
+        return "/test/user/sleuth2, " + userFeignService.getName();
+    }
+
     @GetMapping("/test/user/sleuth")
     public String getNameFeign() {
         return "/test/user/sleuth, " + refactorUserFeignService.getName();

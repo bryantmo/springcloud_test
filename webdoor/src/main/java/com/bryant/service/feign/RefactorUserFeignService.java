@@ -10,7 +10,7 @@ import org.springframework.cloud.openfeign.FeignClient;
  * @FeignClient绑定服务
  * 继承 UserFeignService 接口
  */
-@FeignClient(name = "users")
+@FeignClient(name = "users2")
 public interface RefactorUserFeignService extends UserFeignService {
 
 
