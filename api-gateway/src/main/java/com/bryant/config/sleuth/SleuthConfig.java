@@ -1,4 +1,4 @@
-package com.bryant.service.sleuth;
+package com.bryant.config.sleuth;
 
 import org.springframework.cloud.sleuth.instrument.web.client.feign.TraceFeignClientAutoConfiguration;
 import org.springframework.context.annotation.Configuration;
