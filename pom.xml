@@ -20,6 +20,8 @@
         <module>user-feign-service-api</module>
         <module>api-gateway</module>
         <module>spring-cloud-stream-service</module>
+        <module>security-authorization-server</module>
+        <module>security-authorization-resource</module>
     </modules>
 
 </project>
