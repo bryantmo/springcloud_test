@@ -11,9 +11,13 @@ public class TestCase {
     private static int k = 0;
 
     public static void main(String[] args) {
-        String s = "3[a2[c]]";
-        System.out.println("result = " + decodeString(s));
-        System.out.println("result = " + decodeStringV2(s));
+//        String s = "3[a2[c]]";
+//        System.out.println("result = " + decodeString(s));
+//        System.out.println("result = " + decodeStringV2(s));
+
+        LinkedList<Integer> integers = new LinkedList<>();
+        integers.add(1);
+        integers.add(2);
     }
 
     public static String decodeStringV2(String s) {
