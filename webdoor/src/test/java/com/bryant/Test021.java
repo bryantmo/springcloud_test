@@ -8,43 +8,28 @@ package com.bryant;
 public class Test021 {
 
     public static void main(String[] args) {
-        ListNode l1 = new ListNode(1);
-        ListNode l2 = new ListNode(2);
-        ListNode l3 = new ListNode(4);
-        ListNode l4 = new ListNode(5);
 
     }
 
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        if (l1 == null) {
-            return l2;
-        } else if (l2 == null) {
-            return l1;
-        } else if (l1 == null && l2 == null){
-            return null;
-        }
-
-        ListNode cur = l1.next;
-        ListNode l2_p = l2;
-        while (cur != null) {
-
-            // 中间变量：l1 下次指向元素
-            ListNode next2 = cur.next;
-
-            // 插入l2
-            while (l2_p.next != null
-                    && cur.val >= l2_p.next.val) {
-                l2_p = l2_p.next;
+        // firstHead 是一个头结点
+        ListNode firstHead = new ListNode(-1);
+        // first 是一个动态指针
+        ListNode first = firstHead;
+        // 两个链表都不为空时，则顺序比较每个item值
+        while (l1 != null && l2 != null) {
+            if (l1.val < l2.val) {
+                first.next = l1;
+                l1 = l1.next;
+            } else {
+                first.next = l2;
+                l2 = l2.next;
             }
-
-            // 逃脱出来，说明找到了插入点
-            ListNode newNext = l2_p.next;
-            l2_p.next = cur;
-            cur.next = newNext;
-
-            cur = next2;
+            // 移动first指针
+            first = first.next;
         }
-        return l2;
+        first.next = (l1 == null) ? l2: l1;
+        return firstHead.next;
     }
 
 
