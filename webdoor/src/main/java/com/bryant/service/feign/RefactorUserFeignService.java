@@ -1,7 +1,6 @@
 package com.bryant.service.feign;
 
 import com.bryant.service.UserFeignService;
-import org.springframework.cloud.openfeign.FeignClient;
 
 /**
  * （1）configuration = DisableHystrixConfiguration，关闭Hystrix；
@@ -10,7 +9,7 @@ import org.springframework.cloud.openfeign.FeignClient;
  * @FeignClient绑定服务
  * 继承 UserFeignService 接口
  */
-@FeignClient(name = "users2")
+//@FeignClient(name = "users2")
 public interface RefactorUserFeignService extends UserFeignService {
 
 
