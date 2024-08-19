@@ -13,6 +13,9 @@ import org.springframework.security.oauth2.provider.token.store.InMemoryTokenSto
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 /**
+ *
+ * SpringAuthorization 授权服务器配置
+ *
  * @EnableAuthorizationServer 开启授权服务器的相关自动配置类。
  *
  * 通过继承 AuthorizationServerConfigurerAdapter 授权服务器配 置适配器类，覆盖我 们 需要的配置 。

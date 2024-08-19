@@ -20,14 +20,16 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * 通过@EnableResourceServer开启资源服务器的相关自动配置类。
+ *
+ * Oauth2的相关配置，包括如何解析令牌token的算法逻辑。
+ *
+ * 因为资源服务器，是客户端最后带着token过来的。
  */
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
-
     @Autowired
     private RestTemplate restTemplate;
-
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         // 资源服务器：配置TokenStore
@@ -38,7 +40,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         RemoteTokenServices tokenServices = new RemoteTokenServices();
         tokenServices.setAccessTokenConverter(accessTokenConverter());
 
-        // 为Resttemplate配置异常处理器，忽略400错误
+        // 为RestTemplate配置异常处理器，忽略400错误
         RestTemplate restTemplate = restTemplate();
         restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
             @Override
@@ -49,8 +51,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             }
         });
         tokenServices.setRestTemplate(restTemplate);
+        // 资源服务器-请求-授权服务器-校验token
         tokenServices.setCheckTokenEndpointUrl("http://AUTHORIZATION-SERVER/oauth/check_token");
+        // 资源服务器-只认这个clientId
         tokenServices.setClientId("client");
+        // 资源服务器-只认这个secret
         tokenServices.setClientSecret("secret");
 
         // 资源服务器：配置TokenServices
@@ -58,6 +63,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .stateless(true);
     }
 
+    /**
+     * JwtAccessTokenConverter，配置签名key=secret
+     * @return
+     */
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
@@ -65,6 +74,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         return jwtAccessTokenConverter;
     }
 
+    /**
+     * 负载均衡 RestTemplate
+     *
+     * 因为资源服务器，要请求授权服务器去鉴权，所以用得到restTemplate
+     * @return
+     */
     @Bean
     @LoadBalanced
     public RestTemplate restTemplate() {

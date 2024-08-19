@@ -14,6 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 /**
+ *
+ * SpringSecurity 鉴权登录配置
+ *
  * 上述代码中通过替换 AuthenticationManager在内存中添加了两个用户信息，同时允许 对“ /oauth户”授权端点的访问，
  * 最后配置了一个 NoOpPasswordEncoder用于对认证的密 码进行加密和解密 。
  */
