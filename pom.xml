@@ -22,6 +22,7 @@
         <module>spring-cloud-stream-service</module>
         <module>security-authorization-server</module>
         <module>security-authorization-resource</module>
+        <module>olllama-integration</module>
     </modules>
 
 </project>
