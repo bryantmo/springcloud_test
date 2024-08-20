@@ -14,14 +14,14 @@ public class AiController {
         this.chatService = chatService;
     }
 
-    @GetMapping("city-guide")
+    @GetMapping("/city-guide")
     public String askAi(
             @RequestParam("city") String city,
             @RequestParam("interest") String interest) {
         return chatService.getCityGuide(city, interest);
     }
 
-    @GetMapping("ask_ai")
+    @GetMapping("/ask_ai")
     public String cityGuide(@RequestParam("question") String question) {
         return chatService.askAi(question);
     }

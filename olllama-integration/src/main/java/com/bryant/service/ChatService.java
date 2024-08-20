@@ -18,7 +18,7 @@ public class ChatService {
 
     @Autowired
     @Qualifier("timeOutRestTemplate")
-    private RestTemplate timeOutRestTemplate;;
+    private RestTemplate timeOutRestTemplate;
 
     public String getCityGuide(String city, String interest) {
         String prompt = String.format(OllamaConstants.CITY_GUIDE_PROMPT_TEMPLATE, city, interest);
