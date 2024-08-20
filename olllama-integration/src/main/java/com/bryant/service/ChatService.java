@@ -1,37 +1,64 @@
 package com.bryant.service;
 
+import com.bryant.config.OllamaConstants;
+import com.fasterxml.jackson.databind.JsonNode;
 import java.util.HashMap;
-import org.springframework.ai.chat.ChatClient;
-import org.springframework.ai.chat.prompt.Prompt;
-import org.springframework.ai.chat.prompt.PromptTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class ChatService {
 
-    private final ChatClient chatClient;
+    @Autowired
+    private RestTemplate restTemplate;
 
-    public ChatService(ChatClient chatClient) {
-        this.chatClient = chatClient;
-    }
-
-    public String queryAi(String prompt) {
-        return chatClient.call(prompt);
-    }
+    @Autowired
+    @Qualifier("timeOutRestTemplate")
+    private RestTemplate timeOutRestTemplate;;
 
     public String getCityGuide(String city, String interest) {
-        String template = "I am a tourist visiting the city of {city}.\n"
-                + "                I am mostly interested in {interest}.\n"
-                + "                Tell me tips on what to do there.";
+        String prompt = String.format(OllamaConstants.CITY_GUIDE_PROMPT_TEMPLATE, city, interest);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("prompt", prompt);
+        map.put("model", "llama3");
+        map.put("stream", false);
+        ResponseEntity<JsonNode> stringResponseEntity = timeOutRestTemplate.postForEntity(OllamaConstants.API_GENERATE, map, JsonNode.class);
+        HttpStatus statusCode = stringResponseEntity.getStatusCode();
 
-        PromptTemplate promptTemplate = new PromptTemplate(template);
+        // 大模型请求成功
+        if (statusCode != HttpStatus.OK) {
+            return "first request to ollama failed";
+        }
 
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("city", city);
-        params.put("interest", interest);
-        Prompt prompt = promptTemplate.create(params);
+        JsonNode body = stringResponseEntity.getBody();
+        JsonNode firstAnswerResponseText = body.get("response");
 
-        return chatClient.call(prompt).getResult().getOutput().getContent();
+        // 第二轮对话
+        map.put("prompt", "so can you tell me more about it?");
+        map.put("model", "llama3");
+        map.put("context", body.get("context"));
+        map.put("stream", false);
+        ResponseEntity<JsonNode> stringResponseEntity2 = timeOutRestTemplate.postForEntity(OllamaConstants.API_GENERATE, map, JsonNode.class);
+        JsonNode body2 = stringResponseEntity2.getBody();
+        JsonNode firstAnswerResponseText2 =  body2.get("response");
+
+        return "firstAnswerResponseText: " + firstAnswerResponseText.asText()
+                + "\n"
+                + " secondAnswerResponseText: " + firstAnswerResponseText2.asText();
     }
 
+    public String askAi(String question) {
+        String prompt = String.format(OllamaConstants.AI_ASK_PROMPT_TEMPLATE, question);
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("prompt", prompt);
+        map.put("model", "llama3");
+        map.put("format", "json");
+        map.put("stream", false);
+        ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(OllamaConstants.API_GENERATE, map, String.class);
+        return stringResponseEntity.getBody();
+    }
 }
