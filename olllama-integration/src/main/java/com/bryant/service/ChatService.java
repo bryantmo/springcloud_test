@@ -73,4 +73,12 @@ public class ChatService {
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(OllamaConstants.API_EMBEDDINGS, map, String.class);
         return responseEntity.getBody();
     }
+
+    public String modelShow() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("model", OllamaConstants.OLLAMA_MODEL_NAME);
+        map.put("stream", false);
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(OllamaConstants.API_SHOW, map, String.class);
+        return responseEntity.getBody();
+    }
 }

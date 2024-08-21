@@ -34,4 +34,9 @@ public class AiController {
         return chatService.embedding(prompt, temperature);
     }
 
+    @GetMapping("/model_show")
+    public String modelShow() {
+        return chatService.modelShow();
+    }
+
 }
