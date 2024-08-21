@@ -8,16 +8,18 @@ public class OllamaConstants {
             + "I am mostly interested in %s."
             + "Tell me tips on what to do there.";
 
+    public static final String OLLAMA_MODEL_NAME = "llama3";
+
     public static final String OLLAMA_URL = "http://127.0.0.1:11434";
     //生成补全 POST
     public static final String API_GENERATE = OLLAMA_URL + "/api/generate";
     //对话补全 POST
     public static final String API_CHAT = OLLAMA_URL + "/api/chat";
     //列出本地模型
-    public static final String API_LIST = "/api/tags";
+    public static final String API_LIST = OLLAMA_URL + "/api/tags";
     //显示模型信息
-    public static final String API_SHOW = "/api/show";
+    public static final String API_SHOW = OLLAMA_URL + "/api/show";
     //生成嵌入
-    public static final String API_EMBEDDINGS = "/api/embeddings";
+    public static final String API_EMBEDDINGS = OLLAMA_URL + "/api/embeddings";
 
 }

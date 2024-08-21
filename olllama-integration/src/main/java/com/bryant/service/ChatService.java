@@ -24,7 +24,7 @@ public class ChatService {
         String prompt = String.format(OllamaConstants.CITY_GUIDE_PROMPT_TEMPLATE, city, interest);
         HashMap<String, Object> map = new HashMap<>();
         map.put("prompt", prompt);
-        map.put("model", "llama3");
+        map.put("model", OllamaConstants.OLLAMA_MODEL_NAME);
         map.put("stream", false);
         ResponseEntity<JsonNode> stringResponseEntity = timeOutRestTemplate.postForEntity(OllamaConstants.API_GENERATE, map, JsonNode.class);
         HttpStatus statusCode = stringResponseEntity.getStatusCode();
@@ -39,7 +39,7 @@ public class ChatService {
 
         // 第二轮对话
         map.put("prompt", "so can you tell me more about it?");
-        map.put("model", "llama3");
+        map.put("model", OllamaConstants.OLLAMA_MODEL_NAME);
         map.put("context", body.get("context"));
         map.put("stream", false);
         ResponseEntity<JsonNode> stringResponseEntity2 = timeOutRestTemplate.postForEntity(OllamaConstants.API_GENERATE, map, JsonNode.class);
@@ -55,10 +55,22 @@ public class ChatService {
         String prompt = String.format(OllamaConstants.AI_ASK_PROMPT_TEMPLATE, question);
         HashMap<String, Object> map = new HashMap<>();
         map.put("prompt", prompt);
-        map.put("model", "llama3");
-        map.put("format", "json");
+        map.put("model", OllamaConstants.OLLAMA_MODEL_NAME);
         map.put("stream", false);
         ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(OllamaConstants.API_GENERATE, map, String.class);
         return stringResponseEntity.getBody();
+    }
+
+    public String embedding(String prompt, Integer temperature) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("prompt", prompt);
+        map.put("model", OllamaConstants.OLLAMA_MODEL_NAME);
+        HashMap<String, Object> options = new HashMap<>();
+        map.put("options", options);
+        // temperature	模型的温度。增加温度将使模型回答更具创造性。（默认：0.8）
+        options.put("temperature", temperature);
+        map.put("stream", false);
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(OllamaConstants.API_EMBEDDINGS, map, String.class);
+        return responseEntity.getBody();
     }
 }
