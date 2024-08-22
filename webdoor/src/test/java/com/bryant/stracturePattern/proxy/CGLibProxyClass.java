@@ -14,7 +14,7 @@ public class CGLibProxyClass {
 
         Enhancer enhancer=new Enhancer();
         enhancer.setSuperclass(SubjectA.class);
-        enhancer.setCallback(new CGlibMyMethodInterceptor());
+//        enhancer.setCallback(new CGlibMyMethodInterceptor());
         //生成代理类
         SubjectA ud=(SubjectA) enhancer.create();
         ud.find();
