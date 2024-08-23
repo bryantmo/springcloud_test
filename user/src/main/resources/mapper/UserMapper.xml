@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bryant.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.bryant.model.UserDetail">
+         <id column="id" property="id" jdbcType="INTEGER"/>
+         <result column="name" property="name" jdbcType="VARCHAR"></result>
+         <result column="age" property="age" jdbcType="INTEGER"></result>
+         <result column="email" property="email" jdbcType="VARCHAR"></result>
+         <result column="tenant_id" property="tenantId" jdbcType="BIGINT"></result>
+    </resultMap>
+
+    <sql id="base_columns">
+        `id`, `name`, age, email, tenant_id
+    </sql>
+
+    <insert id="insert" parameterType="map" keyColumn="id">
+        insert
+        into user
+            (id, name, age, email)
+        values
+           (#{record.id,jdbcType=INTEGER},
+            #{record.name,jdbcType=VARCHAR},
+            #{record.age,jdbcType=INTEGER},
+            #{record.email,jdbcType=VARCHAR},
+            #{record.tenantId,jdbcType=BIGINT}
+            )
+    </insert>
+
+    <update id="updateById" parameterType="map">
+        update user
+        set `age` = #{record.age},
+            `name` = #{record.name},
+            `email` = #{record.email}
+        where id = #{record.id}
+            and tenant_id = #{tenant_id}
+    </update>
+
+    <delete id="deleteById">
+        delete from user
+        where id = #{id}
+            and tenant_id = #{tenant_id}
+    </delete>
+
+    <select id="getById" resultMap="BaseResultMap">
+        select
+        <include refid="base_columns"/>
+        from user
+        where id = #{id}
+            and tenant_id = #{tenant_id}
+    </select>
+
+
+
+
+
+</mapper>
