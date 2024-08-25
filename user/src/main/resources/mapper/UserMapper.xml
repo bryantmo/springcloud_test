@@ -17,7 +17,7 @@
     <insert id="insert" parameterType="map" keyColumn="id">
         insert
         into user
-            (id, name, age, email)
+            (id, name, age, email, tenant_id)
         values
            (#{record.id,jdbcType=INTEGER},
             #{record.name,jdbcType=VARCHAR},
@@ -33,13 +33,11 @@
             `name` = #{record.name},
             `email` = #{record.email}
         where id = #{record.id}
-            and tenant_id = #{tenant_id}
     </update>
 
     <delete id="deleteById">
         delete from user
         where id = #{id}
-            and tenant_id = #{tenant_id}
     </delete>
 
     <select id="getById" resultMap="BaseResultMap">
@@ -47,7 +45,7 @@
         <include refid="base_columns"/>
         from user
         where id = #{id}
-            and tenant_id = #{tenant_id}
+            and tenant_id = #{tenantId}
     </select>
 
 

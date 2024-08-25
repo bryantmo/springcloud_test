@@ -20,7 +20,9 @@ public class MybatisController {
         UserDetail detail = UserDetail.builder()
                 .age(new Random().nextInt(100))
                 .email(new Random().nextInt(100000000) + "@qq.com")
-                .name("bryant" + new Random().nextInt(1111)).build();
+                .name("bryant" + new Random().nextInt(1111))
+                .tenantId(new Random().nextLong())
+                .build();
         return userService.insert(detail);
     }
 
