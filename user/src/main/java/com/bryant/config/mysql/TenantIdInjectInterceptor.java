@@ -145,11 +145,6 @@ public class TenantIdInjectInterceptor implements Interceptor {
     @Override
     public Object plugin(Object target) {
         return Plugin.wrap(target, this);
-//        if (target instanceof Interceptor) {
-//            return Plugin.wrap(target, this);
-//        } else {
-//            return target;
-//        }
     }
 
     private boolean checkTypeType(Object object) {

@@ -74,7 +74,12 @@ public class SqlMonitorInterceptor implements Interceptor {
     }
 
 
-    // 进行？的替换
+    /**
+     * 进行 ？符号的替换
+     * @param configuration
+     * @param boundSql
+     * @return
+     */
     private static String parseSql(Configuration configuration, BoundSql boundSql) {
         // 获取参数
         Object parameterObject = boundSql.getParameterObject();
@@ -112,8 +117,13 @@ public class SqlMonitorInterceptor implements Interceptor {
         return sql;
     }
 
-
-    // 封装了一下sql语句，使得结果返回完整xml路径下的sql语句节点id + sql语句
+    /**
+     * 封装了一下sql语句，使得结果返回完整xml路径下的sql语句节点id + sql语句
+     * @param configuration
+     * @param boundSql
+     * @param sqlId
+     * @return
+     */
     private static String getSql(Configuration configuration, BoundSql boundSql, String sqlId)
     {
         String sql = parseSql(configuration, boundSql);

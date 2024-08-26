@@ -1,10 +1,7 @@
 package com.bryant.config.mysql;
 
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +15,6 @@ import org.springframework.core.annotation.Order;
 @ConditionalOnProperty(prefix = "users.mybatis.custom", name = "interceptor", havingValue = "true")
 @Slf4j
 public class MybatisConfig implements InitializingBean {
-
-    @Autowired
-    private List<SqlSessionFactory> sqlSessionFactorys;
 
     @Bean
     @Order(1)
@@ -42,11 +36,6 @@ public class MybatisConfig implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        // 每个sqlSessionFactory都添加拦截器
-//        for (SqlSessionFactory sqlSessionFactory : sqlSessionFactorys) {
-//            sqlSessionFactory.getConfiguration()
-//                    .addInterceptor(mybatisInterceptor());
-//        }
     }
 
 }
