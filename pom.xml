@@ -23,6 +23,8 @@
         <module>security-authorization-server</module>
         <module>security-authorization-resource</module>
         <module>olllama-integration</module>
+        <module>kafka-producer-service</module>
+        <module>kafka-consumer-service</module>
     </modules>
 
 </project>
