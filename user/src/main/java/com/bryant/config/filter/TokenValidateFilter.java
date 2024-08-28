@@ -27,6 +27,8 @@ public class TokenValidateFilter implements Filter {
         logger.info("TokenValidateFilter doFilter...");
         if (request.getParameter("token") != null) {
             chain.doFilter(request, response);
+        } else {
+            logger.info("TokenValidateFilter doFilter fail, request with no token..");
         }
 
         // 在响应返回给客户端之前执行的操作，比如设置响应的Locale
