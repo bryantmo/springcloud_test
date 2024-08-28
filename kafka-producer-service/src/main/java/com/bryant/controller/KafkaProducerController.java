@@ -16,7 +16,21 @@ public class KafkaProducerController {
     public void createMessage(
             @RequestParam("message") String message,
             @RequestParam("key") Integer key) {
-        kafkaService.createMessage(message, key);
+        kafkaService.createMessageSyn(message, key);
+    }
+
+    @PostMapping("/create_message_asyn")
+    public void createMessageAsyn(
+            @RequestParam("message") String message,
+            @RequestParam("key") Integer key) {
+        kafkaService.createMessageAsyn(message, key);
+    }
+
+    @PostMapping("/create_message_batch_asyn")
+    public void batchCreateMessageAsyn(
+            @RequestParam("message") String message,
+            @RequestParam("key") Integer key) {
+        kafkaService.batchCreateMessageAsyn(message, key);
     }
 
 }

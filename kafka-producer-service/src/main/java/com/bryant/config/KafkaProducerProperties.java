@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class KafkaProducerProperties {
 
+    private String clientId;
     private String brokerList;
     private String topic;
     private String keySerializer;
