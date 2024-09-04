@@ -18,9 +18,9 @@ import java.lang.annotation.Target;
  *         针对于修饰 package-info.java 的时候，需要指定 spring mvc 扫描 package-info.java 的 basePackageName。如下所示：
  *
  *         ```
- * @ScanPackagePathConstraint(basePackageName = "com.tencent")
+ * @ScanPackagePathConstraint(basePackageName = "com.")
  *         ```
- *         上述配置表示 spring mvc 从当前类路径的 "com.tencent" 包下开始扫描，扫描出所有的 package-info.java 文件，获得对应的路径约束条件。
+ *         上述配置表示 spring mvc 从当前类路径的 "com." 包下开始扫描，扫描出所有的 package-info.java 文件，获得对应的路径约束条件。
  *
  *         获取一个路由 Controller 方法的约束条件，顺序如下：
  *         1. 判断 method 上是否被 @PathConstraint 修饰。

@@ -39,13 +39,6 @@ public class WebRequestMappingHandlerMapping extends AbstractRequestMappingHandl
      */
     @Override
     protected RequestMappingInfo getMatchingMapping(RequestMappingInfo info, HttpServletRequest request) {
-        // {@link org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.addMatchingMappings} 引用
-        // org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.lookupHandlerMethod 引用
-        // 根据请求路径对通配符进行匹配，配置 useSuffixPatternMatch(.*) 以及 useTrailingSlashMatch(/)
-        // 增加 constraintRegistry 中 pattern + ".*" 以及 "pattern + /" 和 constraint 对应的关系
-        // pattern + ".*" 以及 pattern + "/" 和 pattern 共用同一个 constraint约束
-        // 上述过程，对于一个指定的pattern 只会执行一次
-
         request.setAttribute(REQUEST_MAPPING_MATCHING, info);
         RequestMappingInfo requestMappingInfo = super.getMatchingMapping(info, request);
         request.removeAttribute(REQUEST_MAPPING_MATCHING);
@@ -63,54 +56,12 @@ public class WebRequestMappingHandlerMapping extends AbstractRequestMappingHandl
      */
     @Override
     public HandlerMethod lookupHandlerMethod(String lookupPath, HttpServletRequest request) throws Exception {
-
-        if (StringUtils.isNotEmpty(lookupPath)) {
-            request.setAttribute("startTime_" + lookupPath, System.currentTimeMillis());
-        }
-
-        if (!pathMatched4Security(request)) {
-            return super.lookupHandlerMethod(lookupPath, request);
-        }
-
-        return null;
+        return super.lookupHandlerMethod(lookupPath, request);
     }
 
     @Override
     protected void handleMatch(RequestMappingInfo info, String lookupPath, HttpServletRequest request) {
         super.handleMatch(info, lookupPath, request);
-    }
-
-    private boolean pathMatched4Security(HttpServletRequest request) {
-
-        /**
-         * 路径解析链路：
-         * 请求 -> Security -> DispatcherServlet
-         *
-         * Security 中路径解析，{@link com.tencent.tgit.web.security.SecurityPrepareHandlerRequestMapping#getLookupPathForRequest(HttpServletRequest)}
-         * Security 解析路径，根据路径中的资源内容进行权限解析，request 记录路径已经被解析
-         *
-         * DispatcherServlet 路径解析 {@link WebRequestMappingHandlerMapping#lookupHandlerMethod(String, HttpServletRequest)}
-         * 判断 Security 是否解析过，如果解析，则 DispatcherSerlvet 中不再进行解析。
-         *
-         * 可能出现的问题：
-         * 请求 -> Security -> 出现异常 -> [路径解析完毕，request 记录] -> forward -> /error
-         * /error[不经过security] -> DispatcherServlet -> [request 记录路径解析完毕] DispatcherServlet不再解析路径 -> 出现问题
-         *
-         * 预期：DispatcherServlet 解析 /error 为 BasicErrorController#error
-         * 结果：DispatcherServlet 使用 request 中的缓存，解析的结果为被拦截请求的controller方法
-         *
-         * /error => 被拦截的controller方法
-         *
-         * 解决方案：
-         * SecurityPrepareHandlerRequestMapping 解析的路径 和 WebRequestMappingHandlerMapping 解析的路径必须是同一个
-         */
-
-        if (Objects.isNull(request)) {
-            return false;
-        }
-
-
-        return true;
     }
 
     /**
@@ -131,20 +82,6 @@ public class WebRequestMappingHandlerMapping extends AbstractRequestMappingHandl
             return new WebRouterConstraintCondition(pathConstraint);
         }
 
-        Class<?> beanType = method.getDeclaringClass();
-        if (ObjectUtils.isEmpty(beanType)) {
-            return null;
-        }
-
-        pathConstraint = pathConstraintDetection.detect(beanType);
-        if (ObjectUtils.isNotEmpty(pathConstraint)) {
-            return new WebRouterConstraintCondition(pathConstraint);
-        }
-
-        pathConstraint = pathConstraintDetection.detect(beanType.getPackage());
-        if (ObjectUtils.isNotEmpty(pathConstraint)) {
-            return new WebRouterConstraintCondition(pathConstraint);
-        }
         return new WebRouterConstraintCondition(null);
     }
 

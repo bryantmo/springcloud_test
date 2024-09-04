@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ConstraintController {
 
-    @PathConstraint(constraint = ControllerRouterGrayConstraints.class)
-    @GetMapping("/test_constraint")
-    public String test() {
-        return "test: old logic..";
-    }
-
     @PathConstraint(constraint = ControllerRouterNotGrayConstraints.class)
     @GetMapping("/test_constraint")
+    public String test() {
+        return "非灰度：老API..";
+    }
+
+    @PathConstraint(constraint = ControllerRouterGrayConstraints.class)
+    @GetMapping("/test_constraint")
     public String test2() {
-        return "test: new logic..";
+        return "灰度：新API..";
     }
 }

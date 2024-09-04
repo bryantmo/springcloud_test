@@ -68,6 +68,6 @@ public class DirectPathRouterMatchCondition {
         // 直接路径匹配，则 lookupUrl 和 pattern 相同
         PathPartRequest pathPartRequest = PathPartRequest.build(request, lookupUrl, lookupUrl, new HashMap<>(),
                 new RouterPatternKey(lookupUrl, pathConstraint), null);
-        return routerConstraints.matches(pathPartRequest);
+        return routerConstraints.matches(pathPartRequest);        // 这类会用到约束类的
     }
 }
