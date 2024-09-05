@@ -19,9 +19,7 @@ public class WebRequestMappingHandlerMapping extends AbstractRequestMappingHandl
 
     @Override
     protected void initHandlerMethods() {
-        // 包级别的路由约束
         this.registerPackageRouterConstraint();
-        // 类接口级别的路由约束
         super.initHandlerMethods();
     }
 
@@ -72,16 +70,20 @@ public class WebRequestMappingHandlerMapping extends AbstractRequestMappingHandl
      */
     @Override
     protected RequestCondition<?> getCustomMethodCondition(Method method) {
+
+        // 非灰度接口
         PathConstraintDetection pathConstraintDetection = this.getPathConstraintDetection();
         if (ObjectUtils.isEmpty(pathConstraintDetection)) {
             return new WebRouterConstraintCondition(null);
         }
 
+        // 灰度接口处理
         PathConstraint pathConstraint = pathConstraintDetection.detect(method);
         if (ObjectUtils.isNotEmpty(pathConstraint)) {
             return new WebRouterConstraintCondition(pathConstraint);
         }
 
+        // 兜底处理
         return new WebRouterConstraintCondition(null);
     }
 

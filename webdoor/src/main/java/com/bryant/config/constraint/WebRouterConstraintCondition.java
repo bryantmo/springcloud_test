@@ -72,10 +72,8 @@ public class WebRouterConstraintCondition extends AbstractRequestCondition<WebRo
     public WebRouterConstraintCondition getMatchingCondition(HttpServletRequest request) {// 运行时，获取methodHandler，会回调该函数；用到DirectPathRouterMatchCondition对路由进行匹配
         boolean isDirectUrlMatched = DirectPathRouterMatchCondition.isDirectUrlMatch(request);
         if (!isDirectUrlMatched) {
-            // 如果是非直接路径匹配，则在 com.tencent.tgit.web.api.config.router.matcher.WebRouterPathConstraintMatcher.match 阶段已经进行 PathConstraint 匹配
             return this;
         }
-        // 直接路径匹配
         return DirectPathRouterMatchCondition.isDirectUrlMatchPathConstraint(request, this.pathConstraint) ? this : null;
     }
 
