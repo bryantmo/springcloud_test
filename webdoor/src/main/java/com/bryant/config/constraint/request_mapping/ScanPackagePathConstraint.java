@@ -1,6 +1,6 @@
 package com.bryant.config.constraint.request_mapping;
 
-import com.bryant.controller.constraint.router.PathConstraint;
+import com.bryant.controller.constraint.router.PathRouterDecisionMaker;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -33,7 +33,7 @@ import java.lang.annotation.Target;
  *
  *         如果注解 @ScanPackagePathConstraint 未指定 basePackageName，则默认仅在 method 所处的当前 package 进行扫描，
  *         判断是否存在 package-info.java。
- * @see PathConstraint
+ * @see PathRouterDecisionMaker
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

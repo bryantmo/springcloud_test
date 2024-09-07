@@ -1,7 +1,7 @@
 package com.bryant.config.constraint;
 
-import com.bryant.controller.constraint.router.PathConstraint;
-import com.bryant.controller.constraint.router.RouterConstraints;
+import com.bryant.controller.constraint.router.PathRouterDecisionMaker;
+import com.bryant.controller.constraint.router.RouterDecisionMaker;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -14,24 +14,24 @@ import org.springframework.web.servlet.mvc.condition.AbstractRequestCondition;
 
 public class WebRouterConstraintCondition extends AbstractRequestCondition<WebRouterConstraintCondition> {
 
-    private final PathConstraint pathConstraint;
+    private final PathRouterDecisionMaker pathRouterDecisionMaker;
 
-    public WebRouterConstraintCondition(PathConstraint pathConstraint) {
-        this.pathConstraint = pathConstraint;
+    public WebRouterConstraintCondition(PathRouterDecisionMaker pathRouterDecisionMaker) {
+        this.pathRouterDecisionMaker = pathRouterDecisionMaker;
     }
 
     @Override
-    public Collection<PathConstraint> getContent() {
-        if (ObjectUtils.isEmpty(this.pathConstraint)) {
+    public Collection<PathRouterDecisionMaker> getContent() {
+        if (ObjectUtils.isEmpty(this.pathRouterDecisionMaker)) {
             return new ArrayList<>(Collections.singletonList(null));
         }
-        return new ArrayList<>(Collections.singletonList(this.pathConstraint));
+        return new ArrayList<>(Collections.singletonList(this.pathRouterDecisionMaker));
     }
 
     @Override
     public String toString() {
 
-        Class<? extends RouterConstraints> routerConstraint = ObjectUtils.isEmpty(this.pathConstraint) ? null : this.pathConstraint.constraint();
+        Class<? extends RouterDecisionMaker> routerConstraint = ObjectUtils.isEmpty(this.pathRouterDecisionMaker) ? null : this.pathRouterDecisionMaker.decision();
 
         return ObjectUtils.isEmpty(routerConstraint) ? StringUtils.EMPTY : ClassUtils.getUserClass(routerConstraint).getName();
     }
@@ -74,25 +74,25 @@ public class WebRouterConstraintCondition extends AbstractRequestCondition<WebRo
         if (!isDirectUrlMatched) {
             return this;
         }
-        return DirectPathRouterMatchCondition.isDirectUrlMatchPathConstraint(request, this.pathConstraint) ? this : null;
+        return DirectPathRouterMatchCondition.isDirectUrlMatchPathConstraint(request, this.pathRouterDecisionMaker) ? this : null;
     }
 
     @Override
     public int compareTo(WebRouterConstraintCondition other, HttpServletRequest request) {
-        PathConstraint otherPathConstraint = other.pathConstraint;
-        PathConstraint pathConstraint = this.pathConstraint;
-        if (otherPathConstraint == null && pathConstraint == null) {
+        PathRouterDecisionMaker otherPathRouterDecisionMaker = other.pathRouterDecisionMaker;
+        PathRouterDecisionMaker pathRouterDecisionMaker = this.pathRouterDecisionMaker;
+        if (otherPathRouterDecisionMaker == null && pathRouterDecisionMaker == null) {
             return 0;
-        } else if (pathConstraint == null) {
+        } else if (pathRouterDecisionMaker == null) {
             // this that 交换顺序
             return 1;
-        } else if (otherPathConstraint == null) {
+        } else if (otherPathRouterDecisionMaker == null) {
             // this that 保持顺序
             return -1;
         } else {
             // @PathConstraint 中非必要属性: resourceCondition
-            String otherResourceCondition = otherPathConstraint.resourceCondition();
-            String thisResourceCondition = pathConstraint.resourceCondition();
+            String otherResourceCondition = otherPathRouterDecisionMaker.resourceCondition();
+            String thisResourceCondition = pathRouterDecisionMaker.resourceCondition();
             if (StringUtils.isEmpty(otherResourceCondition) && StringUtils.isEmpty(thisResourceCondition)) {
                 return 0;
             } else if (StringUtils.isEmpty(otherResourceCondition)) {
@@ -100,8 +100,8 @@ public class WebRouterConstraintCondition extends AbstractRequestCondition<WebRo
             } else if (StringUtils.isEmpty(thisResourceCondition)) {
                 return 1;
             } else {
-                int otherOrder = otherPathConstraint.order();
-                int thisOrder = pathConstraint.order();
+                int otherOrder = otherPathRouterDecisionMaker.order();
+                int thisOrder = pathRouterDecisionMaker.order();
                 if (otherOrder > thisOrder) {
                     return 1;
                 } else if (otherOrder < thisOrder) {
@@ -126,15 +126,15 @@ public class WebRouterConstraintCondition extends AbstractRequestCondition<WebRo
         }
         WebRouterConstraintCondition that = (WebRouterConstraintCondition) o;
         boolean isConstraintClassEquals = Objects.equals(that.getContent(), this.getContent());
-        String conditionThis = ObjectUtils.isEmpty(this.pathConstraint) ? StringUtils.EMPTY : this.pathConstraint.resourceCondition();
-        String conditionThat = ObjectUtils.isEmpty(that.pathConstraint) ? StringUtils.EMPTY : that.pathConstraint.resourceCondition();
+        String conditionThis = ObjectUtils.isEmpty(this.pathRouterDecisionMaker) ? StringUtils.EMPTY : this.pathRouterDecisionMaker.resourceCondition();
+        String conditionThat = ObjectUtils.isEmpty(that.pathRouterDecisionMaker) ? StringUtils.EMPTY : that.pathRouterDecisionMaker.resourceCondition();
         return isConstraintClassEquals && StringUtils.equals(conditionThat, conditionThis);
     }
 
     @Override
     public int hashCode() {
-        String condition = ObjectUtils.isEmpty(pathConstraint) ? StringUtils.EMPTY : pathConstraint.resourceCondition();
-        Class<? extends RouterConstraints> type = ObjectUtils.isEmpty(pathConstraint) ? null : pathConstraint.constraint();
+        String condition = ObjectUtils.isEmpty(pathRouterDecisionMaker) ? StringUtils.EMPTY : pathRouterDecisionMaker.resourceCondition();
+        Class<? extends RouterDecisionMaker> type = ObjectUtils.isEmpty(pathRouterDecisionMaker) ? null : pathRouterDecisionMaker.decision();
         return Objects.hash(condition, type);
     }
 }

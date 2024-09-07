@@ -1,8 +1,8 @@
 package com.bryant.config.constraint;
 
-import com.bryant.controller.constraint.router.PathConstraint;
-import com.bryant.controller.constraint.router.PathPartRequest;
-import com.bryant.controller.constraint.router.RouterConstraints;
+import com.bryant.controller.constraint.router.PathRouterDecisionMaker;
+import com.bryant.controller.constraint.router.RouterPathRequest;
+import com.bryant.controller.constraint.router.RouterDecisionMaker;
 import java.util.HashMap;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
@@ -52,22 +52,22 @@ public class DirectPathRouterMatchCondition {
         return false;
     }
 
-    public static boolean isDirectUrlMatchPathConstraint(HttpServletRequest request, PathConstraint pathConstraint) {
+    public static boolean isDirectUrlMatchPathConstraint(HttpServletRequest request, PathRouterDecisionMaker pathRouterDecisionMaker) {
         String lookupUrl = DirectPathRouterMatchCondition.getLookupUrl(request);
 
         // 路由 Controller 方法没有被 @PathConstraint 注解修饰
-        if (ObjectUtils.isEmpty(pathConstraint)) {
+        if (ObjectUtils.isEmpty(pathRouterDecisionMaker)) {
             return true;
         }
 
-        RouterConstraints routerConstraints = RouterConstraintsUtils.getRouterConstraint(pathConstraint.constraint());
+        RouterDecisionMaker routerDecisionMaker = RouterConstraintsUtils.getRouterConstraint(pathRouterDecisionMaker.decision());
         // 路由 PathConstraints 注解中没有 constraints 约束，默认视为 true
-        if (ObjectUtils.isEmpty(routerConstraints)) {
+        if (ObjectUtils.isEmpty(routerDecisionMaker)) {
             return true;
         }
         // 直接路径匹配，则 lookupUrl 和 pattern 相同
-        PathPartRequest pathPartRequest = PathPartRequest.build(request, lookupUrl, lookupUrl, new HashMap<>(),
-                new RouterPatternKey(lookupUrl, pathConstraint), null);
-        return routerConstraints.matches(pathPartRequest);        // 这类会用到约束类的
+        RouterPathRequest routerPathRequest = RouterPathRequest.build(request, lookupUrl, lookupUrl, new HashMap<>(),
+                new RouterPatternKey(lookupUrl, pathRouterDecisionMaker), null);
+        return routerDecisionMaker.matches(routerPathRequest);        // 这类会用到约束类的
     }
 }

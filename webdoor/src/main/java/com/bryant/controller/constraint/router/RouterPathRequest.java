@@ -12,7 +12,7 @@ import org.apache.commons.collections4.MapUtils;
  * 3. pathVariables url 和 pattern 匹配时的路径变量
  * 4. routerPatternKey 一条路由的标识，由 pattern 和 constraint 约束构成
  */
-public class PathPartRequest {
+public class RouterPathRequest {
 
     private final String pattern;
 
@@ -26,7 +26,7 @@ public class PathPartRequest {
 
     private final HttpServletRequest request;
 
-    public PathPartRequest(HttpServletRequest request, String pattern, String url, Map<String, String> pathVariables,
+    public RouterPathRequest(HttpServletRequest request, String pattern, String url, Map<String, String> pathVariables,
             RouterPatternKey routerPatternKey, String routeCondition) {
         this.request = request;
         this.pattern = pattern;
@@ -36,9 +36,9 @@ public class PathPartRequest {
         this.routeCondition = routeCondition;
     }
 
-    public static PathPartRequest build(HttpServletRequest request, String pattern, String url,
+    public static RouterPathRequest build(HttpServletRequest request, String pattern, String url,
             Map<String, String> pathVariables, RouterPatternKey routerPatternKey, String routeCondition) {
-        return new PathPartRequest(request, pattern, url, pathVariables, routerPatternKey, routeCondition);
+        return new RouterPathRequest(request, pattern, url, pathVariables, routerPatternKey, routeCondition);
     }
 
     public String getPathVariable(String name) {

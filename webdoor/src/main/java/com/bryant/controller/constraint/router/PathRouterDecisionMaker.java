@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.TYPE, ElementType.PACKAGE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PathConstraint {
-    Class<? extends RouterConstraints> constraint();
+public @interface PathRouterDecisionMaker {
+    Class<? extends RouterDecisionMaker> decision();
     String resourceCondition() default "";
     int order() default 0;
 }

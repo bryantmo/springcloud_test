@@ -2,14 +2,12 @@ package com.bryant.config.constraint.request_mapping;
 
 import com.bryant.config.constraint.NoMatchRouteCache;
 import com.bryant.config.constraint.WebRouterConstraintCondition;
-import com.bryant.controller.constraint.router.PathConstraint;
+import com.bryant.controller.constraint.router.PathRouterDecisionMaker;
 import java.lang.reflect.Method;
-import java.util.Objects;
 import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
@@ -37,6 +35,7 @@ public class WebRequestMappingHandlerMapping extends AbstractRequestMappingHandl
      */
     @Override
     protected RequestMappingInfo getMatchingMapping(RequestMappingInfo info, HttpServletRequest request) {
+        // request.setAttribute 这个步骤很重要，去掉之后，请求直接报500了
         request.setAttribute(REQUEST_MAPPING_MATCHING, info);
         RequestMappingInfo requestMappingInfo = super.getMatchingMapping(info, request);
         request.removeAttribute(REQUEST_MAPPING_MATCHING);
@@ -78,9 +77,9 @@ public class WebRequestMappingHandlerMapping extends AbstractRequestMappingHandl
         }
 
         // 灰度接口处理
-        PathConstraint pathConstraint = pathConstraintDetection.detect(method);
-        if (ObjectUtils.isNotEmpty(pathConstraint)) {
-            return new WebRouterConstraintCondition(pathConstraint);
+        PathRouterDecisionMaker pathRouterDecisionMaker = pathConstraintDetection.detect(method);
+        if (ObjectUtils.isNotEmpty(pathRouterDecisionMaker)) {
+            return new WebRouterConstraintCondition(pathRouterDecisionMaker);
         }
 
         // 兜底处理

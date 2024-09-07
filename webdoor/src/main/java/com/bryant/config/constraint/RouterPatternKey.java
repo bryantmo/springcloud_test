@@ -1,7 +1,7 @@
 package com.bryant.config.constraint;
 
-import com.bryant.controller.constraint.router.PathConstraint;
-import com.bryant.controller.constraint.router.RouterConstraints;
+import com.bryant.controller.constraint.router.PathRouterDecisionMaker;
+import com.bryant.controller.constraint.router.RouterDecisionMaker;
 import java.util.Objects;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.ClassUtils;
@@ -11,8 +11,9 @@ import org.springframework.util.ObjectUtils;
  * 区分 pattern 的key，由如下部分构成：
  * - pattern
  * - routerConstraint
- * - @PathConstraint#constraint 全限定类名
- * - @PathConstraint#resourceCondition 资源约束条件
+ *
+ * - @PathRouterDecisionMaker#decision 全限定类名
+ * - @PathRouterDecisionMaker#resourceCondition 资源约束条件
  */
 public class RouterPatternKey {
 
@@ -20,14 +21,14 @@ public class RouterPatternKey {
 
     private final String routerConstraints;
 
-    public RouterPatternKey(String pattern, PathConstraint pathConstraint) {
+    public RouterPatternKey(String pattern, PathRouterDecisionMaker pathRouterDecisionMaker) {
         this.pattern = pattern;
-        if (ObjectUtils.isEmpty(pathConstraint)) {
+        if (ObjectUtils.isEmpty(pathRouterDecisionMaker)) {
             this.routerConstraints = StringUtils.EMPTY;
         } else {
 
-            Class<? extends RouterConstraints> type = pathConstraint.constraint();
-            String condition = pathConstraint.resourceCondition();
+            Class<? extends RouterDecisionMaker> type = pathRouterDecisionMaker.decision();
+            String condition = pathRouterDecisionMaker.resourceCondition();
 
             // 注意：routerConstraints 被代理多次，对应的 class 信息变化。获取其最原始的 class 信息，使用 spring 工具类 ClassUtils 获取。
             String typeName = ObjectUtils.isEmpty(type) ? StringUtils.EMPTY :

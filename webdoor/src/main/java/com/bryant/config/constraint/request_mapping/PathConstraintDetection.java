@@ -1,6 +1,6 @@
 package com.bryant.config.constraint.request_mapping;
 
-import com.bryant.controller.constraint.router.PathConstraint;
+import com.bryant.controller.constraint.router.PathRouterDecisionMaker;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,9 +18,9 @@ import org.springframework.util.ObjectUtils;
 
 public class PathConstraintDetection {
 
-    public Map<String, PathConstraint> packagePathConstraintRegistry = new HashMap<>();
+    public Map<String, PathRouterDecisionMaker> packagePathConstraintRegistry = new HashMap<>();
 
-    public PathConstraintDetection(Map<String, PathConstraint> packagePathConstraintRegistry) {
+    public PathConstraintDetection(Map<String, PathRouterDecisionMaker> packagePathConstraintRegistry) {
         this.packagePathConstraintRegistry = packagePathConstraintRegistry;
     }
 
@@ -30,12 +30,12 @@ public class PathConstraintDetection {
      * @param handlerMethod
      * @return
      */
-    public PathConstraint detect(Method handlerMethod) {
+    public PathRouterDecisionMaker detect(Method handlerMethod) {
         if (Objects.isNull(handlerMethod)) {
             return null;
         }
 
-        return AnnotatedElementUtils.findMergedAnnotation(handlerMethod, PathConstraint.class);
+        return AnnotatedElementUtils.findMergedAnnotation(handlerMethod, PathRouterDecisionMaker.class);
     }
 
     /**
@@ -44,11 +44,11 @@ public class PathConstraintDetection {
      * @param beanType
      * @return
      */
-    public PathConstraint detect(Class<?> beanType) {
+    public PathRouterDecisionMaker detect(Class<?> beanType) {
         if (ObjectUtils.isEmpty(beanType)) {
             return null;
         }
-        return AnnotatedElementUtils.findMergedAnnotation(beanType, PathConstraint.class);
+        return AnnotatedElementUtils.findMergedAnnotation(beanType, PathRouterDecisionMaker.class);
     }
 
     /**
@@ -62,7 +62,7 @@ public class PathConstraintDetection {
      * @param packageInfo
      * @return
      */
-    public PathConstraint detect(Package packageInfo) {
+    public PathRouterDecisionMaker detect(Package packageInfo) {
         if (ObjectUtils.isEmpty(packageInfo)) {
             return null;
         }
@@ -79,7 +79,7 @@ public class PathConstraintDetection {
         if (MapUtils.isEmpty(this.packagePathConstraintRegistry)) {
             // 获取当前 method 对应的 package 中的 package-info.java 上的路由约束条件
             // 可能会不存在，直接返回 null
-            return AnnotatedElementUtils.findMergedAnnotation(packageInfo, PathConstraint.class);
+            return AnnotatedElementUtils.findMergedAnnotation(packageInfo, PathRouterDecisionMaker.class);
         }
 
         Set<String> packageNameSet = this.packagePathConstraintRegistry.keySet();
@@ -93,7 +93,7 @@ public class PathConstraintDetection {
 
         if (CollectionUtils.isEmpty(packageNameCollection)) {
             // 兜底措施
-            return AnnotatedElementUtils.findMergedAnnotation(packageInfo, PathConstraint.class);
+            return AnnotatedElementUtils.findMergedAnnotation(packageInfo, PathRouterDecisionMaker.class);
         }
 
         // 根据 packageInfo 获取到映射关系 packagePathConstraintRegistry 中【距离最近】的 package 包
@@ -109,7 +109,7 @@ public class PathConstraintDetection {
         }
 
         if (CollectionUtils.isEmpty(matchedPackage)) {
-            return AnnotatedElementUtils.findMergedAnnotation(packageInfo, PathConstraint.class);
+            return AnnotatedElementUtils.findMergedAnnotation(packageInfo, PathRouterDecisionMaker.class);
         }
         return this.packagePathConstraintRegistry.get(StringUtils.join(matchedPackage, "."));
     }

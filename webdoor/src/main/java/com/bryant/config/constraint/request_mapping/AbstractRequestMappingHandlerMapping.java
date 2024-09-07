@@ -1,7 +1,7 @@
 package com.bryant.config.constraint.request_mapping;
 
 import com.bryant.config.constraint.PathMatchedConstant;
-import com.bryant.controller.constraint.router.PathConstraint;
+import com.bryant.controller.constraint.router.PathRouterDecisionMaker;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,9 +50,9 @@ public class AbstractRequestMappingHandlerMapping extends RequestMappingHandlerM
     /*
        主要为包名和 @PathConstraint 中的 constraint 路由条件之间的映射关系
      */
-    private Map<String, PathConstraint> packageRouterConstraintRegistry = new HashMap<>();
+    private Map<String, PathRouterDecisionMaker> packageRouterConstraintRegistry = new HashMap<>();
 
-    public Map<String, PathConstraint> getPackageRouterConstraintRegistry() {
+    public Map<String, PathRouterDecisionMaker> getPackageRouterConstraintRegistry() {
         return this.packageRouterConstraintRegistry;
     }
 

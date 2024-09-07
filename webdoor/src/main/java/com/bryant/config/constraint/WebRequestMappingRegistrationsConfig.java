@@ -15,6 +15,13 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 @Configuration
 public class WebRequestMappingRegistrationsConfig implements WebMvcRegistrations {
 
+    /**
+     * 返回一个自定义的 RequestMappingHandlerMapping 实例，用于处理 HTTP 请求映射。
+     *
+     * 具体怎么对请求进行映射呢？，参考 WebRequestMappingHandlerMapping
+     * - WebRequestMappingHandlerMapping 有路径匹配器：WebRouterPathConstraintMatcher
+     *    - WebRouterPathConstraintMatcher 有路径匹配器：PathMatcher#match
+     */
     @Override
     public RequestMappingHandlerMapping getRequestMappingHandlerMapping() {
         WebRequestMappingHandlerMapping requestMappingHandlerMapping = new WebRequestMappingHandlerMapping();

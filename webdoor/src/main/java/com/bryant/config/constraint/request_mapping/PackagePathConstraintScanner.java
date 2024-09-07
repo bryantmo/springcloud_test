@@ -1,7 +1,7 @@
 package com.bryant.config.constraint.request_mapping;
 
 
-import com.bryant.controller.constraint.router.PathConstraint;
+import com.bryant.controller.constraint.router.PathRouterDecisionMaker;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
@@ -27,7 +27,7 @@ public class PackagePathConstraintScanner {
         try {
             Class<?> type = classInfo.load();
             return StringUtils.equals(type.getSimpleName(), PACKAGE_INFO)
-                    && AnnotatedElementUtils.isAnnotated(type, PathConstraint.class);
+                    && AnnotatedElementUtils.isAnnotated(type, PathRouterDecisionMaker.class);
         } catch (Throwable e) {
             return false;
         }
@@ -59,8 +59,8 @@ public class PackagePathConstraintScanner {
      * @see WebRequestMappingHandlerMapping#registerPackageRouterConstraint()
      * @see ScanPackagePathConstraint
      */
-    public Map<String, PathConstraint> scan(String[] basePackageNames) {
-        Map<String, PathConstraint> packageRouterConstraintRegistry = new HashMap<>();
+    public Map<String, PathRouterDecisionMaker> scan(String[] basePackageNames) {
+        Map<String, PathRouterDecisionMaker> packageRouterConstraintRegistry = new HashMap<>();
         if (ArrayUtils.isEmpty(basePackageNames)) {
             return packageRouterConstraintRegistry;
         }
@@ -86,15 +86,15 @@ public class PackagePathConstraintScanner {
                 try {
                     Class<?> type = classInfo.load();
                     if (!ObjectUtils.isEmpty(type) && !ObjectUtils.isEmpty(type.getPackage())) {
-                        PathConstraint pathConstraint = AnnotatedElementUtils.findMergedAnnotation(type, PathConstraint.class);
-                        if (ObjectUtils.isEmpty(pathConstraint) || ObjectUtils.isEmpty(pathConstraint.constraint())) {
+                        PathRouterDecisionMaker pathRouterDecisionMaker = AnnotatedElementUtils.findMergedAnnotation(type, PathRouterDecisionMaker.class);
+                        if (ObjectUtils.isEmpty(pathRouterDecisionMaker) || ObjectUtils.isEmpty(pathRouterDecisionMaker.decision())) {
                             continue;
                         }
                         String packageName = type.getPackage().getName();
                         if (StringUtils.isEmpty(packageName)) {
                             continue;
                         }
-                        packageRouterConstraintRegistry.put(packageName, pathConstraint);
+                        packageRouterConstraintRegistry.put(packageName, pathRouterDecisionMaker);
                     }
 
                 } catch (Throwable e) {
