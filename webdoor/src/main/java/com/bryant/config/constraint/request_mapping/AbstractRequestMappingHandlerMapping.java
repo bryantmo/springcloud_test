@@ -18,12 +18,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.InvalidMediaTypeException;
 import org.springframework.http.MediaType;
-import org.springframework.web.HttpMediaTypeNotAcceptableException;
-import org.springframework.web.HttpMediaTypeNotSupportedException;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.UnsatisfiedServletRequestParameterException;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.condition.NameValueExpression;
@@ -83,44 +78,7 @@ public class AbstractRequestMappingHandlerMapping extends RequestMappingHandlerM
 
     @Override
     protected HandlerMethod handleNoMatch(Set<RequestMappingInfo> infos, String lookupPath, HttpServletRequest request) throws ServletException {
-        PartialMatchHelper helper = new PartialMatchHelper(infos, request);
-        if (helper.isEmpty()) {
-            return null;
-        }
-
-        if (helper.hasMethodsMismatch()) {
-            Set<String> methods = helper.getAllowedMethods();
-            if (HttpMethod.OPTIONS.matches(request.getMethod())) {
-                HttpOptionsHandler handler = new HttpOptionsHandler(methods);
-                return new HandlerMethod(handler, HTTP_OPTIONS_HANDLE_METHOD);
-            }
-            throw new HttpRequestMethodNotSupportedException(request.getMethod(), methods);
-        }
-
-        if (helper.hasConsumesMismatch()) {
-            Set<MediaType> mediaTypes = helper.getConsumableMediaTypes();
-            MediaType contentType = null;
-            if (org.springframework.util.StringUtils.hasLength(request.getContentType())) {
-                try {
-                    contentType = MediaType.parseMediaType(request.getContentType());
-                } catch (InvalidMediaTypeException ex) {
-                    throw new HttpMediaTypeNotSupportedException(ex.getMessage());
-                }
-            }
-            throw new HttpMediaTypeNotSupportedException(contentType, new ArrayList<>(mediaTypes));
-        }
-
-        if (helper.hasProducesMismatch()) {
-            Set<MediaType> mediaTypes = helper.getProducibleMediaTypes();
-            throw new HttpMediaTypeNotAcceptableException(new ArrayList<>(mediaTypes));
-        }
-
-        if (helper.hasParamsMismatch()) {
-            List<String[]> conditions = helper.getParamConditions();
-            throw new UnsatisfiedServletRequestParameterException(conditions, request.getParameterMap());
-        }
-
-        return null;
+        return super.handleNoMatch(infos, lookupPath, request);
     }
 
 

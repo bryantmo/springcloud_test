@@ -1,6 +1,6 @@
 package com.bryant.controller.constraint.router;
 
-import com.bryant.config.constraint.RouterPatternKey;
+import com.bryant.config.constraint.request_mapping.RouterPatternKey;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.collections4.MapUtils;

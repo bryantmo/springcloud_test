@@ -1,7 +1,7 @@
-package com.bryant.config.constraint;
+package com.bryant.config.constraint.request_mapping;
 
 
-import com.bryant.config.constraint.request_mapping.WebRouterDecisionCondition;
+import com.bryant.config.constraint.PathMatchedConstant;
 import com.bryant.controller.constraint.router.PathRouterDecisionMaker;
 import com.bryant.controller.constraint.router.RouterDecisionMaker;
 import com.bryant.controller.constraint.router.RouterPathRequest;
@@ -18,6 +18,9 @@ import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 
 public class WebRouterPathConstraintMatcher implements PathMatcher {
 
+    /**
+     * 自定义了一个key到request的attribute
+     */
     String REQUEST_MAPPING_MATCHING = PathMatchedConstant.class.getName() + ".requestMappingMatching";
 
     @Override
@@ -30,7 +33,7 @@ public class WebRouterPathConstraintMatcher implements PathMatcher {
 
         HttpServletRequest request = ServletRequestUtil.getCurrentRequest();
 
-        // 1. 提取 PathRouterDecisionMaker 决策器
+        // 1. 提取注解，
         PathRouterDecisionMaker pathRouterDecisionMaker = getRouterConstraintTypeByMatchingRequestMappingInfo(request);
         Class<? extends RouterDecisionMaker> routerConstraintClass = ObjectUtils.isEmpty(pathRouterDecisionMaker) ? null : pathRouterDecisionMaker.decision();
 
@@ -49,8 +52,8 @@ public class WebRouterPathConstraintMatcher implements PathMatcher {
 //        if (hitNoMatchRouteCache) {
 //            return false;
 //        }
-
-        // 3.提取请求路径中的变量
+//
+//        // 3.提取请求路径中的变量
 //        Map<String, String> variables = extractUriTemplateVariables(pattern, path);
 //        if (Objects.isNull(variables)) {
 //            // 无法匹配，进行缓存
@@ -71,7 +74,7 @@ public class WebRouterPathConstraintMatcher implements PathMatcher {
                    如果因为 2 没有匹配到，那么需要将资源对象从 RouteResourceCache 中清除掉缓存
                  */
 //                pathPartRequest.removeResource();
-                NoMatchRouteCache.cache(request, path, routerPatternKey);
+//                NoMatchRouteCache.cache(request, path, routerPatternKey);
                 return false;
             }
         }

@@ -1,5 +1,7 @@
 package com.bryant.config.constraint;
 
+import com.bryant.config.constraint.request_mapping.RouterPatternKey;
+import com.bryant.config.constraint.request_mapping.WebRouterPathConstraintMatcher;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +66,7 @@ public class NoMatchRouteCache implements Serializable {
      * @param request
      * @param url 请求路径
      * @param routerPatternKey [pattern, RouterConstraint.class]
-     * @see com.bryant.config.constraint.WebRouterPathConstraintMatcher#match(String, String)
+     * @see WebRouterPathConstraintMatcher#match(String, String)
      */
     public static boolean hitCache(HttpServletRequest request, String url, RouterPatternKey routerPatternKey) {
         NoMatchRouteCache noMatchRouteCache = (NoMatchRouteCache) request.getAttribute(

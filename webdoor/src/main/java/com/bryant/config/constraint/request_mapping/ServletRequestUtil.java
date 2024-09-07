@@ -1,4 +1,4 @@
-package com.bryant.config.constraint;
+package com.bryant.config.constraint.request_mapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

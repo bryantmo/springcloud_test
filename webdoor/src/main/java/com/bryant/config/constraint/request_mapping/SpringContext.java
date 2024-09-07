@@ -1,4 +1,4 @@
-package com.bryant.config.constraint;
+package com.bryant.config.constraint.request_mapping;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

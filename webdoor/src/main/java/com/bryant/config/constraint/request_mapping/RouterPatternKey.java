@@ -1,4 +1,4 @@
-package com.bryant.config.constraint;
+package com.bryant.config.constraint.request_mapping;
 
 import com.bryant.controller.constraint.router.PathRouterDecisionMaker;
 import com.bryant.controller.constraint.router.RouterDecisionMaker;
