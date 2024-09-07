@@ -1,7 +1,6 @@
 package com.bryant.config.constraint.request_mapping;
 
 import com.bryant.config.constraint.NoMatchRouteCache;
-import com.bryant.config.constraint.WebRouterConstraintCondition;
 import com.bryant.controller.constraint.router.PathRouterDecisionMaker;
 import java.lang.reflect.Method;
 import java.util.Set;
@@ -22,7 +21,7 @@ public class WebRequestMappingHandlerMapping extends AbstractRequestMappingHandl
     }
 
     /**
-     * 循环遍历所有的 @RequestMapping 对一个的路由元信息，进行匹配，匹配到最佳 RequestMappingInfo
+     * 循环遍历所有的 @RequestMapping 集合，根据路由注解元信息，进行匹配，匹配到最佳 RequestMappingInfo
      * ```
      * for (RequestMappingInfo mapping : mappings) {
      * // 依次匹配 method\produces\consumes\header\...\patterns\customCondition
@@ -43,9 +42,7 @@ public class WebRequestMappingHandlerMapping extends AbstractRequestMappingHandl
     }
 
     /**
-     * 对于任何一个请求 spring security filter 的拦截要优先于 spring mvc servlet 的拦截
-     * 根据部分请求（并非所有）获取相应的handler，已经在 {@todo 调试 com.tencent.tgit.web.api.security.AccessDecisionManager#decide} 中进行获取
-     *
+     * 直接调用 org.springframework.web.servlet.handler.AbstractHandlerMethodMapping#lookupHandlerMethod(java.lang.String, javax.servlet.http.HttpServletRequest) 即可，没有做特殊处理
      * @param lookupPath 请求路径，通过 {@link org.springframework.web.util.UrlPathHelper} 获取
      * @param request
      * @return
@@ -54,11 +51,6 @@ public class WebRequestMappingHandlerMapping extends AbstractRequestMappingHandl
     @Override
     public HandlerMethod lookupHandlerMethod(String lookupPath, HttpServletRequest request) throws Exception {
         return super.lookupHandlerMethod(lookupPath, request);
-    }
-
-    @Override
-    protected void handleMatch(RequestMappingInfo info, String lookupPath, HttpServletRequest request) {
-        super.handleMatch(info, lookupPath, request);
     }
 
     /**
@@ -71,19 +63,19 @@ public class WebRequestMappingHandlerMapping extends AbstractRequestMappingHandl
     protected RequestCondition<?> getCustomMethodCondition(Method method) {
 
         // 非灰度接口
-        PathConstraintDetection pathConstraintDetection = this.getPathConstraintDetection();
-        if (ObjectUtils.isEmpty(pathConstraintDetection)) {
-            return new WebRouterConstraintCondition(null);
+        WebRouterDecisionMakerDetection webRouterDecisionMakerDetection = this.getPathConstraintDetection();
+        if (ObjectUtils.isEmpty(webRouterDecisionMakerDetection)) {
+            return new WebRouterDecisionCondition(null);
         }
 
         // 灰度接口处理
-        PathRouterDecisionMaker pathRouterDecisionMaker = pathConstraintDetection.detect(method);
+        PathRouterDecisionMaker pathRouterDecisionMaker = webRouterDecisionMakerDetection.detect(method);
         if (ObjectUtils.isNotEmpty(pathRouterDecisionMaker)) {
-            return new WebRouterConstraintCondition(pathRouterDecisionMaker);
+            return new WebRouterDecisionCondition(pathRouterDecisionMaker);
         }
 
         // 兜底处理
-        return new WebRouterConstraintCondition(null);
+        return new WebRouterDecisionCondition(null);
     }
 
     @Override

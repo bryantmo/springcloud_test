@@ -16,16 +16,22 @@ import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
-public class PathConstraintDetection {
+/**
+ *  PathRouterDecisionMaker注解提取器
+ *   - 从方法注释提取注解
+ *   - 从Controller类提取注解
+ *   - 从包路径提取注解
+ */
+public class WebRouterDecisionMakerDetection {
 
     public Map<String, PathRouterDecisionMaker> packagePathConstraintRegistry = new HashMap<>();
 
-    public PathConstraintDetection(Map<String, PathRouterDecisionMaker> packagePathConstraintRegistry) {
+    public WebRouterDecisionMakerDetection(Map<String, PathRouterDecisionMaker> packagePathConstraintRegistry) {
         this.packagePathConstraintRegistry = packagePathConstraintRegistry;
     }
 
     /**
-     * 判断方法中是否被 @PathConstraint 注解装饰
+     * 判断方法中是否被 @PathRouterDecisionMaker 注解装饰
      *
      * @param handlerMethod
      * @return
@@ -39,7 +45,7 @@ public class PathConstraintDetection {
     }
 
     /**
-     * 判断 Controller 是否被 @PathConstraint 注解修饰
+     * 判断 Controller 是否被 @PathRouterDecisionMaker 注解修饰
      *
      * @param beanType
      * @return

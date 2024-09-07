@@ -46,7 +46,7 @@ public class AbstractRequestMappingHandlerMapping extends RequestMappingHandlerM
     }
 
     private final PackagePathConstraintScanner scanner = new PackagePathConstraintScanner();
-    private PathConstraintDetection pathConstraintDetection;
+    private WebRouterDecisionMakerDetection webRouterDecisionMakerDetection;
     /*
        主要为包名和 @PathConstraint 中的 constraint 路由条件之间的映射关系
      */
@@ -56,12 +56,12 @@ public class AbstractRequestMappingHandlerMapping extends RequestMappingHandlerM
         return this.packageRouterConstraintRegistry;
     }
 
-    public PathConstraintDetection getPathConstraintDetection() {
-        return this.pathConstraintDetection;
+    public WebRouterDecisionMakerDetection getPathConstraintDetection() {
+        return this.webRouterDecisionMakerDetection;
     }
 
-    public void setPathConstraintDetection(PathConstraintDetection pathConstraintDetection) {
-        this.pathConstraintDetection = pathConstraintDetection;
+    public void setPathConstraintDetection(WebRouterDecisionMakerDetection webRouterDecisionMakerDetection) {
+        this.webRouterDecisionMakerDetection = webRouterDecisionMakerDetection;
     }
 
     public void registerPackageRouterConstraint() {
@@ -72,7 +72,7 @@ public class AbstractRequestMappingHandlerMapping extends RequestMappingHandlerM
         if (ObjectUtils.isNotEmpty(scanPackagePathConstraint)
                 && ArrayUtils.isNotEmpty(scanPackagePathConstraint.basePackageNames())) {
             this.packageRouterConstraintRegistry = scanner.scan(scanPackagePathConstraint.basePackageNames());
-            this.setPathConstraintDetection(new PathConstraintDetection(this.packageRouterConstraintRegistry));
+            this.setPathConstraintDetection(new WebRouterDecisionMakerDetection(this.packageRouterConstraintRegistry));
             long endTime = System.currentTimeMillis();
             log.info("Scan @PathConstraint from the packages: "
                     + Arrays.toString(scanPackagePathConstraint.basePackageNames())

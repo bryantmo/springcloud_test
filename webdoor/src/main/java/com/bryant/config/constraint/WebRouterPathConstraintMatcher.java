@@ -1,6 +1,7 @@
 package com.bryant.config.constraint;
 
 
+import com.bryant.config.constraint.request_mapping.WebRouterDecisionCondition;
 import com.bryant.controller.constraint.router.PathRouterDecisionMaker;
 import com.bryant.controller.constraint.router.RouterDecisionMaker;
 import com.bryant.controller.constraint.router.RouterPathRequest;
@@ -113,11 +114,11 @@ public class WebRouterPathConstraintMatcher implements PathMatcher {
         RequestMappingInfo requestMappingInfo = (RequestMappingInfo) requestMappingInfoObject;
 
         RequestCondition<?> requestCondition = requestMappingInfo.getCustomCondition();
-        if (!(requestCondition instanceof WebRouterConstraintCondition)) {
+        if (!(requestCondition instanceof WebRouterDecisionCondition)) {
             return null;
         }
 
-        WebRouterConstraintCondition condition = (WebRouterConstraintCondition) requestCondition;
+        WebRouterDecisionCondition condition = (WebRouterDecisionCondition) requestCondition;
         Collection<PathRouterDecisionMaker> pathRouterDecisionMakers = condition.getContent();
         return CollectionUtils.isEmpty(pathRouterDecisionMakers) ? null : new ArrayList<>(pathRouterDecisionMakers).get(0);
     }
