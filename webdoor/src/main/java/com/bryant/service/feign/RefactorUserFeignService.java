@@ -1,6 +1,7 @@
 package com.bryant.service.feign;
 
 import com.bryant.service.UserFeignService;
+import org.springframework.cloud.openfeign.FeignClient;
 
 /**
  * （1）configuration = DisableHystrixConfiguration，关闭Hystrix；
