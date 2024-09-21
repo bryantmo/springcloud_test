@@ -46,7 +46,7 @@ public class KafkaService {
      */
     public void createMessageAsyn(String message, Integer key) {
         ProducerRecord<Object, String> record =
-                new ProducerRecord<>(kafkaProducerProperties.getTopic(), getPartition(key), message);
+                new ProducerRecord<>(kafkaProducerProperties.getTopic(), getPartition(key).toString(), message);
         kafkaProducer.send(record, new Callback() {
             @Override
             public void onCompletion(RecordMetadata metadata, Exception exception) {

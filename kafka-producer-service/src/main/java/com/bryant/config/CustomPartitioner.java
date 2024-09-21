@@ -12,7 +12,10 @@ import java.util.Map;
 public class CustomPartitioner implements Partitioner {
     @Override
     public int partition(String topic, Object key, byte[] keyBytes, Object value, byte[] valueBytes, Cluster cluster) {
-        return (int) key % 100;
+        if (key instanceof Integer)
+            return (int) key % 100;
+        else
+            return Integer.valueOf((String)key) % 100;
     }
 
     @Override
