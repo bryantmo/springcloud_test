@@ -1,16 +1,24 @@
 package com.bryant.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.Duration;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Configuration
+@Slf4j
 public class KafkaConsumerConfig {
 
     @Autowired
@@ -18,7 +26,10 @@ public class KafkaConsumerConfig {
 
     @Bean
     public KafkaConsumer kafkaConsumer() {
-        return new KafkaConsumer(initKafkaConsumer());
+        log.info("KafkaConsumer start");
+        KafkaConsumer kafkaConsumer = new KafkaConsumer(initKafkaConsumer());
+        kafkaConsumer.subscribe(Arrays.asList(kafkaConsumerProperties.getTopic()));
+        return kafkaConsumer;
     }
 
     private Properties initKafkaConsumer() {

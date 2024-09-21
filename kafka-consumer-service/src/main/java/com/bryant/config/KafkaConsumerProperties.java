@@ -1,13 +1,15 @@
 package com.bryant.config;
 
 import lombok.Data;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
-@ConditionalOnProperty(prefix = "kafka.consumer", havingValue = "enable", matchIfMissing = true)
+@Configuration
+@ConfigurationProperties(prefix = "kafka.consumer")
 @Data
 public class KafkaConsumerProperties {
-
     private String clientId;
     private String brokerList;
     private String groupId;
+    private String topic;
 }
