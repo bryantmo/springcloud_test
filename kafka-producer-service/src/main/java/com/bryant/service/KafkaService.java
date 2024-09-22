@@ -29,9 +29,18 @@ public class KafkaService {
      */
     public void createMessageSyn(String message, Integer key) {
         ProducerRecord<Object, String> record =
-                new ProducerRecord<>(kafkaProducerProperties.getTopic(), getPartition(key), message);
+                new ProducerRecord<>(kafkaProducerProperties.getTopic(), getPartition(key).toString(), message);
         try {
-            Future<RecordMetadata> sendResult = kafkaProducer.send(record);
+            Future<RecordMetadata> sendResult = kafkaProducer.send(record, new Callback() {
+                @Override
+                public void onCompletion(RecordMetadata recordMetadata, Exception e) {
+                    if (e != null) {
+                        log.error("send message error, ", e);
+                    } else {
+                        log.info("send message finish, metadata = {}", recordMetadata);
+                    }
+                }
+            });
             RecordMetadata recordMetadata = sendResult.get();
             log.info("createMessageSyn: RecordMetadata = {}", recordMetadata.toString());
         } catch (InterruptedException | ExecutionException e) {
@@ -64,7 +73,7 @@ public class KafkaService {
         int i = 0;
         while (i < 100) {
             ProducerRecord<Object, String> record =
-                    new ProducerRecord<>(kafkaProducerProperties.getTopic(), getPartition(key), message);
+                    new ProducerRecord<>(kafkaProducerProperties.getTopic(), getPartition(key).toString(), message);
             kafkaProducer.send(record, new Callback() {
                 @Override
                 public void onCompletion(RecordMetadata metadata, Exception exception) {
