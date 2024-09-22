@@ -24,13 +24,18 @@ public class KafkaConsumerConfig {
     @Autowired
     private KafkaConsumerProperties kafkaConsumerProperties;
 
-    @Bean
-    public KafkaConsumer kafkaConsumer() {
-        log.info("KafkaConsumer start");
-        KafkaConsumer kafkaConsumer = new KafkaConsumer(initKafkaConsumer());
-        kafkaConsumer.subscribe(Arrays.asList(kafkaConsumerProperties.getTopic()));
-        return kafkaConsumer;
-    }
+//    @Bean
+//    public KafkaConsumer kafkaConsumer() {
+//        log.info("KafkaConsumer start");
+//        KafkaConsumer kafkaConsumer = new KafkaConsumer(initKafkaConsumer());
+//
+//        // 订阅一个或者多个主题
+//        kafkaConsumer.subscribe(Arrays.asList(kafkaConsumerProperties.getTopic()));
+//
+//        // 订阅主题和分区
+////        kafkaConsumer.assign(Arrays.asList(new ConsumerRecord("topic", 0, 0, "key", "value")));
+//        return kafkaConsumer;
+//    }
 
     private Properties initKafkaConsumer() {
         Properties props = new Properties();
@@ -39,6 +44,10 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConsumerProperties.getBrokerList());
         props.put(ConsumerConfig.GROUP_ID_CONFIG, kafkaConsumerProperties.getGroupId());
         props.put(ConsumerConfig.CLIENT_ID_CONFIG, kafkaConsumerProperties.getClientId());
+
+        // 设置手动提交offset
+        props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
+
         return props;
     }
 
