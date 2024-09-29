@@ -2,9 +2,11 @@ package com.bryant.ttl;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.alibaba.ttl.TtlRunnable;
+import com.alibaba.ttl.threadpool.TtlExecutors;
 import com.bryant.util.ThreadPoolUtils;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -24,10 +26,10 @@ public class TestTransmittableThreadLocal {
             log.info("thread1 - after set - threadLocal:{}", transmittableThreadLocal.get());
         }).start();
 
-        ThreadPoolExecutor threadPoolExecutor = ThreadPoolUtils.newThreadPool(
+        Executor threadPoolExecutor = TtlExecutors.getTtlExecutor(ThreadPoolUtils.newThreadPool(
                 1, 1,
                 0, TimeUnit.SECONDS,
-                new LinkedBlockingQueue<>(10), null, null);
+                new LinkedBlockingQueue<>(10), null, null));
 
         // 构造一个新的TtlRunnable
         TtlRunnable ttlRunnable = TtlRunnable.get(new Runnable() {
