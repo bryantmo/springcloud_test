@@ -19,7 +19,8 @@
         into user
             (id, name, age, email, tenant_id)
         values
-           (#{record.id,jdbcType=INTEGER},
+           (
+            #{record.id,jdbcType=INTEGER},
             #{record.name,jdbcType=VARCHAR},
             #{record.age,jdbcType=INTEGER},
             #{record.email,jdbcType=VARCHAR},
@@ -47,9 +48,5 @@
         where id = #{id}
             and tenant_id = #{tenantId}
     </select>
-
-
-
-
 
 </mapper>
