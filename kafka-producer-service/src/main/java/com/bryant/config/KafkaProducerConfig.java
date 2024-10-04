@@ -31,7 +31,6 @@ public class KafkaProducerConfig {
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProducerProperties.getBrokerList());
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, kafkaProducerProperties.getKeySerializer());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, kafkaProducerProperties.getValueSerializer());
-
         props.put(ProducerConfig.RETRIES_CONFIG, 3);
         props.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, CustomPartitioner.class.getName());
 
@@ -46,6 +45,8 @@ public class KafkaProducerConfig {
 
         // 设置生产者阻塞时间
         props.put(ProducerConfig.MAX_BLOCK_MS_CONFIG, 3000);
+
+        props.put(ProducerConfig.BATCH_SIZE_CONFIG, 0);
 
         // 添加单个拦截器
 //        props.put(ProducerConfig.INTERCEPTOR_CLASSES_CONFIG, CustomProducerInteceptor.class.getName());
