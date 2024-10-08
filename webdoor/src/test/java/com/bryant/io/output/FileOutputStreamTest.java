@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * 字节流-输入流-FileInputStream
+ * 字节流-输入流-FileOutputStream
  *
  */
 public class FileOutputStreamTest {

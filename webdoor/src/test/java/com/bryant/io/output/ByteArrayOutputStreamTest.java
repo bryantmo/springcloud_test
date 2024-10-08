@@ -10,9 +10,7 @@ import java.io.IOException;
  */
 @Slf4j
 public class ByteArrayOutputStreamTest {
-
     public static void main(String[] args) throws IOException {
-
         String newString = "Hello, World!";
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         // 底层是for循环，写入ByteArrayOutputStream的内存数组
@@ -22,5 +20,4 @@ public class ByteArrayOutputStreamTest {
         log.info("bytes: {}", bytes);
         log.info("string: {}", new String(bytes));
     }
-
 }

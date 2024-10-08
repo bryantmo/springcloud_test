@@ -8,14 +8,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
- * ByteArrayInputStream 是 Java 中的一个类，它是 InputStream 的子类，用于从字节数组中读取数据。
- * 这个类允许你将一个字节数组视为一个输入流，从而可以使用标准的 I/O 流操作来处理它。
+ * 输入流-字节流-ByteArrayInputStream
  */
 @Slf4j
 public class ByteArrayInputStreamTest {
     public static void main(String[] args) throws IOException {
         // 被读取的数据，内存
         byte[] bytes = "Hello world".getBytes();
+        // ByteArrayInputStream 是 Java 中的一个类，它是 InputStream 的子类，用于从字节数组中读取数据。
+        //这个类允许你将一个字节数组视为一个输入流，从而可以使用标准的 I/O 流操作来处理它。
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes, 0, 3);
         while (byteArrayInputStream.read() != -1) {
             byteArrayInputStream.read(bytes);
