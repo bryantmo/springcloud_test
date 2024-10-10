@@ -3,8 +3,6 @@ package com.bryant.service;
 import com.bryant.config.KafkaProducerProperties;
 import com.bryant.model.Users;
 import com.bryant.util.JsonUtil;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -14,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -120,5 +117,21 @@ public class KafkaService {
                 }
             });
         }
+    }
+
+    public void createMessageAsyn(String multiPartitionTopic, String message, Integer partition) {
+        ProducerRecord record = new ProducerRecord<>(multiPartitionTopic, String.valueOf(partition), message);
+        kafkaProducer.send(record, new Callback() {
+            @Override
+            public void onCompletion(RecordMetadata metadata, Exception exception) {
+                // metadata 和 exception
+                if (exception != null) {
+                    log.error("createMessageAsyn error: ", exception);
+                } else {
+                    log.info("createMessageAsyn: topic = {}, partition = {}, offset = {}",
+                            metadata.topic(), metadata.partition(), metadata.offset());
+                }
+            }
+        });
     }
 }

@@ -72,10 +72,10 @@ class Task2 implements Runnable {
             assignment = consumer.assignment();
         }
 
-//        for (TopicPartition tp : assignment) {
-//            // 设置从分配到的分区TP，指定从第4条开始消费，最终一次拿到了超过500条的已消费数据。
-//            consumer.seek(tp, 4);
-//        }
+        for (TopicPartition tp : assignment) {
+            // 设置从分配到的分区TP，指定从第4条开始消费，最终一次拿到了超过500条的已消费数据。
+            consumer.seek(tp, 4);
+        }
 
         // 设置从末尾开始消费
         // consumer.endOffsets: 来获取指定分区的末尾的消息位置
@@ -88,13 +88,13 @@ class Task2 implements Runnable {
 //        consumer.seekToBeginning(assignment);
 //        consumer.seekToEnd(assignment);
 
-        for (TopicPartition tp : assignment) {
-            // 指定时间戳消费
-            Map<TopicPartition, OffsetAndTimestamp>  offsets =
-                    consumer.offsetsForTimes(Collections.singletonMap(tp, DateUtil.getToday().getTime()));
-            OffsetAndTimestamp offsetAndTimestamp = offsets.get(tp);
-            consumer.seek(tp, offsetAndTimestamp.offset());
-        }
+//        for (TopicPartition tp : assignment) {
+//            // 指定时间戳消费
+//            Map<TopicPartition, OffsetAndTimestamp>  offsets =
+//                    consumer.offsetsForTimes(Collections.singletonMap(tp, DateUtil.getToday().getTime()));
+//            OffsetAndTimestamp offsetAndTimestamp = offsets.get(tp);
+//            consumer.seek(tp, offsetAndTimestamp.offset());
+//        }
 
 
         // 循环拉数据

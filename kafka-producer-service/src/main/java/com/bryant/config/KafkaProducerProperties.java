@@ -14,6 +14,8 @@ public class KafkaProducerProperties {
     private String keySerializer;
     private String valueSerializer;
 
+    private String multiPartitionTopic;
+
     public String getClientId() {
         return clientId;
     }
@@ -52,5 +54,13 @@ public class KafkaProducerProperties {
 
     public void setValueSerializer(String valueSerializer) {
         this.valueSerializer = valueSerializer;
+    }
+
+    public String getMultiPartitionTopic() {
+        return multiPartitionTopic;
+    }
+
+    public void setMultiPartitionTopic(String multiPartitionTopic) {
+        this.multiPartitionTopic = multiPartitionTopic;
     }
 }
