@@ -7,6 +7,5 @@ public class TestVolatile {
     public static void main(String[] args) {
         System.out.println(num);
         num = 1111;
-
     }
 }
