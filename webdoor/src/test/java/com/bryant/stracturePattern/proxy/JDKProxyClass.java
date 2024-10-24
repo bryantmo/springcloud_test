@@ -4,6 +4,10 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+/**
+ * JDK - 方法
+ * CGlib - 对象ASM框架
+ */
 public class JDKProxyClass {
     public static void main(String[] args) {
         //被代理类
@@ -20,10 +24,11 @@ public class JDKProxyClass {
         //生成代理对象1
         IUserDao iud = (IUserDao) Proxy.newProxyInstance(ud.getClass().getClassLoader(), ud.getClass().getInterfaces(), dp);
         iud.find();
+        iud.abandon();
 
         //切换代理对象2，生成
-        iud = (IUserDao) Proxy.newProxyInstance(wd.getClass().getClassLoader(), wd.getClass().getInterfaces(), dp2);
-        iud.find();
+//        iud = (IUserDao) Proxy.newProxyInstance(wd.getClass().getClassLoader(), wd.getClass().getInterfaces(), dp2);
+//        iud.find();
     }
 }
 
@@ -32,6 +37,7 @@ public class JDKProxyClass {
  */
 interface IUserDao {
     void find();
+    void abandon();
 }
 /**
  * 被代理类或者叫代理目标类
@@ -41,6 +47,11 @@ class User1Dao implements IUserDao{
     public void find() {
         System.out.println("查找用户");
     }
+
+    @Override
+    public void abandon() {
+        System.out.println("丢弃信息");
+    }
 }
 
 class Woman1Dao implements IUserDao {
@@ -48,11 +59,17 @@ class Woman1Dao implements IUserDao {
     public void find() {
         System.out.println("查找女性用户");
     }
+    @Override
+    public void abandon() {
+        System.out.println("丢弃女拳信息");
+    }
 }
 
 /**
  * <p>
  *     JDK 动态代理拦截器类
+ *
+ *     这里解耦了被代理对象
  * </p>
  */
 class JDKDynamicProxy implements InvocationHandler {
