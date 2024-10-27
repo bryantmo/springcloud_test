@@ -1,4 +1,4 @@
-package com.bryant.TestMergeSort;
+package com.bryant.sort.TestMergeSort;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,14 +28,13 @@ public class TestQuickSort {
 
     private static int partition(int[] a, int low, int high) {
        int p = a[low];
-       int i = low, j = high;
        while (low < high) {
-           while (i < j && p <= a[j]) {
-               j--;
+           while (low < high && p <= a[high]) {
+               high--;
            }
            swap(a, low, high);
-           while (i < j && p > a[i]) {
-               i++;
+           while (low < high && p > a[low]) {
+               low++;
            }
            swap(a, low, high);
        }

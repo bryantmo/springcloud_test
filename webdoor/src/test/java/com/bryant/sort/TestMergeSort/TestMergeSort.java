@@ -1,4 +1,4 @@
-package com.bryant.TestMergeSort;
+package com.bryant.sort.TestMergeSort;
 
 import lombok.extern.slf4j.Slf4j;
 

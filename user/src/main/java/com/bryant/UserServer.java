@@ -11,11 +11,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @EnableDiscoveryClient
 @SpringBootApplication
-// 测试自定义启动类加载
-@EnableSpringStudy
+@EnableSpringStudy // 测试自定义启动类加载
 @EnableCircuitBreaker
-// mapper扫描的包路径
-@MapperScan("com.bryant.mapper")
+@MapperScan("com.bryant.mapper") // mapper扫描的包路径
 @EnableTransactionManagement
 @EnableWebMvc
 public class UserServer {
