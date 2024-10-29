@@ -1,4 +1,4 @@
-package com.bryant;
+package com.bryant.leetcode;
 
 import java.util.Arrays;
 

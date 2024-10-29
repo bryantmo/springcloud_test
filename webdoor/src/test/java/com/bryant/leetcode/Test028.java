@@ -1,4 +1,4 @@
-package com.bryant;
+package com.bryant.leetcode;
 
 /**
  * Knuth-Morris-Pratt 算法

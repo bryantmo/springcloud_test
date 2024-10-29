@@ -1,4 +1,4 @@
-package com.bryant;
+package com.bryant.leetcode;
 
 /**
  * https://leetcode.cn/problems/merge-two-sorted-lists/description/

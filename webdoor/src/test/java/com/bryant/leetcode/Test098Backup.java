@@ -1,4 +1,4 @@
-package com.bryant;
+package com.bryant.leetcode;
 
 import lombok.extern.slf4j.Slf4j;
 

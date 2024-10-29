@@ -1,4 +1,4 @@
-package com.bryant;
+package com.bryant.leetcode;
 
 public class TestCase009 {
 
