@@ -41,7 +41,7 @@
         where id = #{id}
     </delete>
 
-    <select id="getById" resultMap="BaseResultMap">
+    <select id="getById" resultMap="BaseResultMap" parameterType="map">
         select
         <include refid="base_columns"/>
         from user
