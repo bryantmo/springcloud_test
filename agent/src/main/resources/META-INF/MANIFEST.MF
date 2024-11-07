@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Premain-Class: org.example.agent.MyAgent
+Can-Retransform-Classes: true
+Created-By: Apache Maven
+Built-By: bryant
