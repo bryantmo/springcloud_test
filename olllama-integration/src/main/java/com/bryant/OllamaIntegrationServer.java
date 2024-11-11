@@ -1,6 +1,8 @@
 package com.bryant;
 
 import java.time.Duration;
+
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -16,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
+@MapperScan("com.bryant.mapper")
 public class OllamaIntegrationServer {
 
     public static void main(String[] args) {

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bryant.mapper.TtsVoiceMapper">
+
+    <resultMap id="BaseResultMap" type="com.bryant.model.TtsVoice">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="type" property="type" javaType="INTEGER"></result>
+        <result column="age" property="age" javaType="INTEGER"></result>
+        <result column="path" property="path" javaType="String"></result>
+        <result column="voice" property="voice" javaType="String"></result>
+        <result column="origin_text" property="originText" javaType="String"></result>
+    </resultMap>
+
+    <sql id="base_columns">
+        `id`, `type`, age, path, voice, origin_text
+    </sql>
+
+    <insert id="insert" parameterType="map">
+        insert into music_path
+        (id, type, age, path, voice, origin_text)
+        values
+        (#{id}, #{type}, #{age}, #{path}, #{voice}, #{originText})
+    </insert>
+
+    <select id="getById" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="base_columns"/>
+        from music_path
+        where id = #{id}
+    </select>
+</mapper>

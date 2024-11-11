@@ -54,6 +54,36 @@
             <artifactId>json-smart</artifactId>
         </dependency>
 
+        <!-- 整合mybatis相关依赖 -->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- 数据库驱动（例如 MySQL） -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.tencentcloudapi</groupId>
+            <artifactId>tencentcloud-sdk-java</artifactId>
+            <version>3.1.1139</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.ikfly</groupId>
+            <artifactId>java-tts</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.jacob/jacob 文字转语音 -->
+        <dependency>
+            <groupId>com.hynnet</groupId>
+            <artifactId>jacob</artifactId>
+            <version>1.18</version>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.springframework.ai/spring-ai-ollama -->
 <!--        <dependency>-->
