@@ -21,6 +21,13 @@ public class TestMergeSort {
         log.info(Arrays.toString(a));
     }
 
+    /**
+     * 递归
+     * @param a
+     * @param head
+     * @param tail
+     * @param tmp
+     */
     private static void doDivide(int[] a, int head, int tail, int[] tmp) {
         if (head < tail) {
             // 二分法取中值

@@ -17,28 +17,38 @@ public class TestQuickSort {
         log.info(Arrays.toString(a));
     }
 
+    /**
+     * 递归快速排序
+     * @param a
+     * @param low
+     * @param high
+     */
     private static void quickSort(int[] a, int low, int high) {
         if (low >= high) {
             return;
         }
+        // 选出基准值
         int p = partition(a, low, high);
+        // 递归排序
         quickSort(a, low, p - 1);
         quickSort(a, p+1, high);
     }
 
     private static int partition(int[] a, int low, int high) {
-       int p = a[low];
-       while (low < high) {
-           while (low < high && p <= a[high]) {
-               high--;
-           }
-           swap(a, low, high);
-           while (low < high && p > a[low]) {
-               low++;
-           }
-           swap(a, low, high);
-       }
-       return low;
+        int pivot = a[low];
+        while(low < high) {
+            while (low<high && a[high] > pivot) {
+                high--;
+            }
+            swap(a, low, high);
+
+            while(low < high && a[low] <pivot) {
+                low++;
+            }
+            swap(a, low
+            , high);
+        }
+        return low;
     }
 
     private static void swap(int[] a, int low, int high) {
