@@ -12,9 +12,18 @@ public class TestBeanConfig {
      * 重复的bean定义，默认使用@Primary注解的bean
      * @return
      */
-    @Bean
+    @Bean(name = "testBean1")
     public TestString testBean1() {
         return new TestBean("testBean1");
+    }
+
+    /**
+     * @Bean(name = "testBean1")，这里同名bean，会冲突，因此只加载第一个
+     * @return
+     */
+    @Bean(name = "testBean1")
+    public TestString testBean11() {
+        return new TestBean("testBean11");
     }
 
     @Bean
