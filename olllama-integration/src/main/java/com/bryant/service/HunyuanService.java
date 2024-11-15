@@ -15,27 +15,21 @@ import com.tencentcloudapi.hunyuan.v20230901.models.Choice;
 import com.tencentcloudapi.hunyuan.v20230901.models.Message;
 import com.tencentcloudapi.tts.v20190823.models.TextToVoiceRequest;
 import com.tencentcloudapi.tts.v20190823.models.TextToVoiceResponse;
-import io.ikfly.constant.OutputFormat;
-import io.ikfly.constant.VoiceEnum;
-import io.ikfly.model.SSML;
-import io.ikfly.service.TTSService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StopWatch;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Base64;
+import java.util.Date;
 import java.util.UUID;
 
 @Service
 @Slf4j
 public class HunyuanService {
 
-    private final static String TEMPLATE = "今天是 %s %s 的 %s 岁生日，希望你能帮忙写一段200字左右的祝福语，要求是 %s";
+    private final static String PROMOTE_TEMPLATE = "今天是 %s %s 的 %s 岁生日，希望你能帮忙写一段200字左右的祝福语，要求是 %s，输出内容限制在120字以内";
 
     @Autowired
     private HunyuanClient client;
@@ -48,7 +42,7 @@ public class HunyuanService {
 
     public String getContent(String name, Integer age, String type, String extendInfo) {
         ChatCompletionsRequest req = new ChatCompletionsRequest();
-        String content = String.format(TEMPLATE, name, ObjectTypeEnum.fromCode(type).getChName(), age, extendInfo);
+        String content = String.format(PROMOTE_TEMPLATE, name, ObjectTypeEnum.fromCode(type).getChName(), age, extendInfo);
         Message[] msgs = new Message[1];
         Message msg = new Message();
         msg.setContent(content);
@@ -97,7 +91,7 @@ public class HunyuanService {
             request.setText(text);
             request.setSkipSign(true);
             request.setModelType(5l);
-            request.setVoiceType(301000l);
+            request.setVoiceType(301022l);
             request.setVolume(1f);
             request.setSpeed(1f);
             request.setCodec("wav");
@@ -133,7 +127,7 @@ public class HunyuanService {
     }
 
 
-    public String createContentAndVoice(String babyName, Integer age, String type, String extendInfo) {
+    public TtsVoice createContentAndVoice(String babyName, Integer age, String type, String extendInfo) {
 
         StopWatch watch = new StopWatch("createContentAndVoice");
 
@@ -144,7 +138,7 @@ public class HunyuanService {
 
         watch.start("getTTs");
         // 2、语音合成
-        String tts = this.getTTs(content.substring(0, 100));
+        String tts = this.getTTs(content);
         watch.stop();
 
         // 3、保存到数据库
@@ -156,7 +150,7 @@ public class HunyuanService {
         log.info("createContentAndVoice, {}", watch);
 
 //        return tts;
-        return "";
+        return ttsVoice;
     }
 
     private TtsVoice buildTtsVoice(String content, String type, Integer age, String babyName, String tts) {
@@ -166,6 +160,7 @@ public class HunyuanService {
         ttsVoice.setAge(age);
         ttsVoice.setType(Integer.valueOf(ObjectTypeEnum.fromCode(type).getValue()));
         ttsVoice.setPath(babyName);
+        ttsVoice.setCreatedAt(new Date());
         return ttsVoice;
     }
 

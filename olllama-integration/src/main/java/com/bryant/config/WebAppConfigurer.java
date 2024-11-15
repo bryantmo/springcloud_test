@@ -14,7 +14,9 @@ public class WebAppConfigurer implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/*/**")
+                // Access-Control-Allow-Origin 允许跨域的域名，如果携带cookies则不能为“*”
                 .allowedOrigins("*")
-                .allowedMethods("GET");
+                // Access-Control-Allow-Methods
+                .allowedMethods("GET","POST","PUT", "OPTIONS", "DELETE");
     }
 }

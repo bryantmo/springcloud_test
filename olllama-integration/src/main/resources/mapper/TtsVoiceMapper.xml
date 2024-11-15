@@ -9,17 +9,18 @@
         <result column="path" property="path" javaType="String"></result>
         <result column="voice" property="voice" javaType="String"></result>
         <result column="origin_text" property="originText" javaType="String"></result>
+        <result column="created_at" property="createdAt" javaType="Date"></result>
     </resultMap>
 
     <sql id="base_columns">
-        `id`, `type`, age, path, voice, origin_text
+        `id`, `type`, age, path, voice, origin_text, created_at
     </sql>
 
     <insert id="insert" parameterType="map">
         insert into music_path
-        (id, type, age, path, voice, origin_text)
+        (id, type, age, path, voice, origin_text, created_at)
         values
-        (#{id}, #{type}, #{age}, #{path}, #{voice}, #{originText})
+        (#{id}, #{type}, #{age}, #{path}, #{voice}, #{originText}, #{createdAt})
     </insert>
 
     <select id="getById" parameterType="map" resultMap="BaseResultMap">

@@ -5,6 +5,8 @@ import com.bryant.service.HunyuanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @RequestMapping("/hunyuan")
 @RestController
 public class HunyuanController {
@@ -28,18 +30,23 @@ public class HunyuanController {
     }
 
     @PostMapping("/create_content_and_voice")
-    public String createContentAndVoice(
-            @RequestParam(value = "babyName") String babyName,
+    public Long createContentAndVoice(
+            @RequestParam(value = "name") String name,
             @RequestParam(value = "age")  Integer age,
             @RequestParam(value = "type")  String type,
             @RequestParam(value = "extendInfo")  String extendInfo
     ) {
-        return hunyuanService.createContentAndVoice(babyName, age, type, extendInfo);
+        TtsVoice ttsvo = hunyuanService.createContentAndVoice(name, age, type, extendInfo);
+        return ttsvo.getId();
     }
 
     @GetMapping("/get_voice_by_id")
-    public TtsVoice getVoiceById(@RequestParam("id") Long id) {
-        return hunyuanService.getVoiceById(id);
+    public String getVoiceById(@RequestParam("id") String id) {
+        TtsVoice voice = hunyuanService.getVoiceById(Long.valueOf(id));
+        if (Objects.isNull(voice)) {
+            return "null";
+        }
+        return voice.getVoice();
     }
 
 }

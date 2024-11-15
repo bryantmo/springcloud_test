@@ -6,5 +6,6 @@ create table music_path(
     `path` varchar(100) not null default '' comment '本地路径',
     `origin_text` text  comment '音频原始文本',
     `voice` longtext comment 'base64编码后的音频数据',
+    `create_at` datetime not null default current_timestamp comment '创建日期',
     key idx_on_type_age_name(`type`,`age`,`path`(20))
 )  engine = innodb DEFAULT CHARSET=utf8mb4 comment '音频表';
