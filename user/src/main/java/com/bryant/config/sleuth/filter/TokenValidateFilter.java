@@ -1,4 +1,4 @@
-package com.bryant.config.filter;
+package com.bryant.config.sleuth.filter;
 
 import java.io.IOException;
 import java.util.Locale;
