@@ -1,7 +1,6 @@
 package com.bryant;
 
 import com.bryant.import_package.EnableSpringStudy;
-import com.sun.tools.attach.VirtualMachine;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -29,19 +28,6 @@ public class UserServer {
 	public static void main(String[] args) {
 	    SpringApplication.run(UserServer.class, args);
 		log.info("UserServer start...");
-//
-//		// 加载代理
-//		try {
-//			// 获取当前 JVM 进程的 PID
-//			String pid = Long.toString(ProcessHandle.current().pid());
-//
-//			// 加载代理
-//			VirtualMachine vm = VirtualMachine.attach(pid);
-//			vm.loadAgent("/Users/bryantmo/Downloads/code/springcloud_test/agent/target/agent.jar");
-//			vm.detach();
-//		} catch (Exception e) {
-//
-//		}
 	}
 
 }

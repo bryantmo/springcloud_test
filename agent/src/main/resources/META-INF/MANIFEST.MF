@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
-Premain-Class: org.example.agent.JvmMonitorAgent
-Agent-Class: org.example.agent.JvmMonitorAgent
+Premain-Class: org.example.agent.JvmMonitorPreMainAgent
+Agent-Class: org.example.agent.JvmMonitorAgentMainAgent
 Can-Retransform-Classes: true
 Can-Redefine-Classes: true
 Created-By: Apache Maven
