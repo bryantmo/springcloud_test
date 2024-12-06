@@ -25,6 +25,7 @@
         <module>olllama-integration</module>
         <module>kafka-producer-service</module>
         <module>kafka-consumer-service</module>
+        <module>agent</module>
     </modules>
 
 </project>

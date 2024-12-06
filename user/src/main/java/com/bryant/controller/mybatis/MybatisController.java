@@ -31,4 +31,10 @@ public class MybatisController {
         return userService.getById(id);
     }
 
+    @GetMapping("/test_first_cache")
+    public UserDetail test_first_cache(@RequestParam("id") Long id) {
+        userService.getById(id);
+        return userService.getById(id);
+    }
+
 }

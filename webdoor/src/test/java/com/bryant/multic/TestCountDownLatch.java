@@ -15,10 +15,10 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class TestCountDownLatch {
 
-    private static final CountDownLatch countDownLatch = new CountDownLatch(1);
+    private static final CountDownLatch countDownLatch = new CountDownLatch(2);
     private static final ThreadPoolExecutor threadPoolExecutor = ThreadPoolUtils.newThreadPool(
-            1,
-            1,
+            2,
+            4,
             0,
             TimeUnit.SECONDS,
             new LinkedBlockingQueue<>(1), null, null
@@ -37,6 +37,22 @@ public class TestCountDownLatch {
             }
         }).start();
 
+
+        new Thread(() -> {
+            try {
+                log.info("thread2 finish execute... count = {}", countDownLatch.getCount());
+                // 阻塞
+                boolean await = countDownLatch.await(2, TimeUnit.SECONDS);
+                while (!await) {
+                    log.info("thread2 waiting fail...");
+                    Thread.sleep(1000);
+                }
+                log.info("thread2 finish execute... count = {}", countDownLatch.getCount());
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+
         threadPoolExecutor.execute(
                 new Runnable() {
                     @Override
@@ -45,6 +61,13 @@ public class TestCountDownLatch {
                         // 减一
                         countDownLatch.countDown();
                         log.info("threadPoolExecutor execute task... count = {}", countDownLatch.getCount());
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        countDownLatch.countDown();
+                         log.info("threadPoolExecutor execute task... count = {}", countDownLatch.getCount());
                     }
                 }
         );
@@ -52,6 +75,5 @@ public class TestCountDownLatch {
 
         Thread.sleep(1000);
         threadPoolExecutor.shutdownNow();
-
     }
 }

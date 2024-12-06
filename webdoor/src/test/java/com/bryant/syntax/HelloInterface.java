@@ -17,6 +17,10 @@ public interface HelloInterface {
 
     }
 
+    static void test22() {
+
+    }
+
     int a= 1;
 
     public String aa = "111";
