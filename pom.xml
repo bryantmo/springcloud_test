@@ -26,6 +26,7 @@
         <module>kafka-producer-service</module>
         <module>kafka-consumer-service</module>
         <module>agent</module>
+        <module>jsp-boot</module>
     </modules>
 
 </project>
